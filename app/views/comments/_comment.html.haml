@@ -1,9 +1,16 @@
-.row.row-custom
-  %p
-    = "#{comment.content}"
-    %p
-      by
-      = link_to comment.author.first_name, user_path(comment.author)
-    %small 
-      created at
-      = "#{fix_date_time(comment.created_at)}"
+%table.comment-cell
+  %tr
+    %td.comment-vote
+      %span.glyphicon.glyphicon-circle-arrow-up
+    %td.comment-content
+      %p
+      = "#{comment.content}"
+      %p
+        created by
+        = link_to "#{comment.author.first_name} #{comment.author.last_name}", user_path(comment.author)
+        %span at
+        = "#{fix_date_time(comment.created_at)}"
+      -#
+        %small 
+          created at
+          = "#{fix_date_time(comment.created_at)}"

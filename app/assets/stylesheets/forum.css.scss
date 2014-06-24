@@ -1,0 +1,135 @@
+/* Forum Thread */ 
+
+#forum-thread {
+	#subject-wrapper {
+		/* In Partial _category */ 
+		margin-left: 7.3333333333%;
+		.tag {
+			padding: 4px 6px;
+			background-color: #999;
+		a {
+			color: #fff;
+			text-decoration: none;
+			}
+		}
+		.tag:hover {
+		background-color: #2BBD60;
+		}
+		/* End of _category */
+	}
+	.row { 
+		margin-top: 10px;
+		#forum-conversation {
+			padding: 10px 15px 20px;
+			#question-wrapper {
+				/* border-bottom: 1px solid black; */ 
+				padding-bottom: 10px;
+				#question-only {
+					position: relative;
+					min-height: 100px;
+				}
+				
+			}
+			#all-answers-wrapper {
+				border-top: 1px solid black;
+				.answer-wrapper {
+					padding: 10px 0;
+					border-bottom: 1px solid black;
+					.only-answer-wrapper {
+						position: relative;
+						min-height: 100px;
+					}
+				}
+			}
+			#answer_description {
+				width: 75%;
+				height: 100px;
+			}
+		}
+	}
+}
+
+/* Voting Functions */ 
+
+.forum-vote {
+	position: absolute;
+	top: -10px;
+	margin-left: -8.3333333%;
+	font-size: 2em;
+	ul {
+		padding: 0;
+		li {
+			.glyphicon-chevron-up:hover {
+				color: #F9BF3A;
+			}
+			.vote-number {
+				display: block;
+				text-align: center;
+				margin-right: 3px;
+				margin-top: -10px;
+			}
+		}
+	}
+}
+
+	/* This Spans _comment, _answer and the show view */ 
+.comment-wrapper {
+	clear: both;		
+	width: 90%;
+	margin-left: 10%;
+	border-top: 1px dotted black;
+	.comment-cell {
+		border-collapse: collapse;
+		display: table;
+		width: 100%;
+		td {
+			border-bottom: 1px dotted black;
+		}
+		.comment-content {
+			font-size: .85em
+		}
+		.comment-vote {
+			position: relative;
+			width: 30px;
+			.glyphicon-circle-arrow-up {
+				position: absolute;
+				top: 10px;
+			}
+			.glyphicon-circle-arrow-up:hover {
+				color: #F9BF3A;
+			}
+		}
+	}
+}
+
+/* End Voting Functions */
+
+.new-comment-wrapper {
+	margin-top: 15px;
+	.comment-link {
+
+	}
+	.comment-form {
+		display: none;
+		textarea {
+			width: 30%;
+		}
+	}
+}
+					.avatar-wrapper {
+						position: absolute;
+						bottom: 0;
+						right: 10px;
+						width: 180px;
+						height: 50px;
+						img {
+							float:left;
+							width: 50px;
+						}
+						div {
+							float: left;
+							ul {
+								padding-left: 10px;
+							}
+						}
+					}

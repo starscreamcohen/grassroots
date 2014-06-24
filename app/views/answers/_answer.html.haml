@@ -1,17 +1,31 @@
-.row.row-custom
-  %p
-    = "#{answer.description}"
+%div.answer-wrapper
+  %div.only-answer-wrapper 
+    %div.forum-vote
+      %ul
+        %li
+          %span.glyphicon.glyphicon.glyphicon-chevron-up
+        %li 
+          %span.vote-number 0
     %p
-      by
-      = link_to answer.author.first_name, user_path(answer.author)
-    %small 
-      created at
-      = "#{fix_date_time(answer.created_at)}"
-  %h5 Comments:
-  - answer.comments.each do |comment|
-    = render 'comments/comment', comment: comment
-  %h5 Comment below:
-  = form_for [@question, answer, @comment] do |f|
-    = f.text_area :content
-    %br/
-    = f.submit "Comment on this answer", class: "btn btn-primary"
+      = "#{answer.description}"
+    -#  
+      %small 
+        created at
+        = "#{fix_date_time(answer.created_at)}"
+    %div.avatar-wrapper
+      %img{:src => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/t1.0-1/c204.44.552.552/s160x160/303330_10100328964694072_324662327_n.jpg"} 
+      %div
+        %ul
+          %li
+            = link_to "#{answer.author.first_name} #{answer.author.last_name}", user_path(answer.author)
+          %li Grassroots.org
+  %div.comment-wrapper
+    - answer.comments.each do |comment|
+      = render 'comments/comment', comment: comment
+  %div.new-comment-wrapper  
+    %a{:title => "Use the comments to ask for a clarification on the answer", :class => "comment-link"} add comment
+    %div.comment-form
+      = form_for [@question, answer, @comment] do |f|
+        = f.text_area :content
+        %br/
+        = f.submit "Add a Comment", class: "btn btn-primary"

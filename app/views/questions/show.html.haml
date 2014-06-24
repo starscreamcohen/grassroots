@@ -1,23 +1,42 @@
-%p= link_to 'edit this question', edit_question_path(@question) if @question.author == current_user
-
-= render @question.categories
-%h3= @question.title
-
-%p
-  = @question.description
-%h5 Comments:
-- @question.comments.each do |comment|
-  = render 'comments/comment', comment: comment
-%h5 Comment below:
-= form_for [@question, @comment] do |f|
-  = f.text_area :content
-  %br/
-  = f.submit "Comment on the question", class: "btn btn-primary"
-%h3 Answers:
-- @answers.each do |answer|
-  = render 'answers/answer', answer: answer
-%h3 Answer below:
-= form_for [@question, @answer] do |f|
-  = f.text_area :description
-  %br/
-  = f.submit "Submit an answer", class: "btn btn-primary"
+%div#forum-thread
+  %div#subject-wrapper 
+    %h3.bold= @question.title
+    = render @question.categories
+  .row.row-custom
+    .col-lg-10.col-lg-offset-1.white#forum-conversation
+      %div#question-wrapper
+        %div#question-only
+          %div.forum-vote
+            %ul
+              %li
+                %span.glyphicon.glyphicon.glyphicon-chevron-up
+              %li 
+                %span.vote-number 0
+          %p
+            = @question.description
+          %p= link_to 'edit', edit_question_path(@question) if @question.author == current_user
+          %div.avatar-wrapper
+            %img{:src => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/t1.0-1/c204.44.552.552/s160x160/303330_10100328964694072_324662327_n.jpg"} 
+            %div
+              %ul
+                %li Ben Cohen
+                %li Grassroots.org
+        %div.comment-wrapper
+          - @question.comments.each do |comment|
+            = render 'comments/comment', comment: comment
+        %div.new-comment-wrapper
+          %a{:title => "Use the comments section to ask for a clarification on the question", :class => "comment-link"} add comment
+          %div.comment-form
+            = form_for [@question, @comment] do |f|
+              = f.text_area :content
+              %br/
+              = f.submit "Add a Comment", class: "btn btn-primary"
+      %h4.bold= "#{@answers.count} Answers"
+      %div#all-answers-wrapper
+        - @answers.each do |answer|
+          = render 'answers/answer', answer: answer
+      %h3 Answer below:
+      = form_for [@question, @answer] do |f|
+        = f.text_area :description
+        %br/
+        = f.submit "Post Your Answer", class: "btn btn-primary"

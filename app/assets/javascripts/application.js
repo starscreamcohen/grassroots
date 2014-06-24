@@ -44,6 +44,11 @@ $(document).ready(function() {
       $('.navbar-toggle').addClass('navbar-toggle-collapse'); 
     }
   });
+
+  $('.comment-link').on('click', function() {
+    $(this).siblings('.comment-form').toggle();
+    $(this).toggle();
+  });
 });
 
 
