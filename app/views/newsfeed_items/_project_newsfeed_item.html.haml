@@ -1,11 +1,15 @@
-Request to join
-= link_to "#{item.author.first_name} #{item.author.last_name}", user_path(item.author), class: 'bold'
-= link_to "#{item.project_type} #{item.newsfeedable_type}", project_path(item.newsfeedable_id), class: 'no-links'
-%span.small-text= "at #{fix_date_time(item.created_at)}"
-%tr
-  %td.left-cell.newsfeed-voting
-
-  %td.content-cell 
-    %ul
-      %li.title= link_to item.newsfeedable.title, project_path(item.newsfeedable_id)
-      %li.description= item.newsfeedable.description
+%div.individual-newsfeed-story
+  %div.individual-newsfeed-header
+    %span Request to join
+    %span= link_to "#{item.author.first_name} #{item.author.last_name}'s", user_path(item.author), class: 'bold'
+    %span= link_to "#{item.project_type} #{item.newsfeedable_type}", project_path(item.newsfeedable_id), class: 'no-links'
+    %span.small-text= "at #{fix_date_time(item.created_at)}"
+  %table.newsfeed-nested-table
+    %tr
+      %td.newsfeed-icon
+        %div.pic
+          %img.lg-image{:src => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/c204.44.552.552/s160x160/303330_10100328964694072_324662327_n.jpg?oh=f95434b97cd338de3440acf350e46eba&oe=542F77AA&__gda__=1411069275_01ba651c5cecc65eee8c3a486c096596"}
+      %td.content-cell 
+        %ul
+          %li.title= link_to item.newsfeedable.title, project_path(item.newsfeedable_id)
+          %li.description= item.newsfeedable.description

@@ -1,31 +1,33 @@
 .row.row-custom
   .col-lg-2
-  .col-lg-8.white#newsfeed-wrapper 
-    %table
-      %tr
-        %td.left-cell.newsfeed-title-wrapper
-          %div.pic
-            - if item.author.avatar?
-              = cl_image_tag(item.author.avatar.path, size: "20x20")
-            - else
-              = image_tag(item.author.small_cover, class: "testing")
-        %td.user-name-cell     
-          - if item.newsfeedable_type == "Project"
-            = render 'project_newsfeed_item', item: item
-          - elsif item.newsfeedable_type == "Question"
-            = render 'question_newsfeed_item', item: item
-          - elsif item.newsfeedable_type == "Answer"
-            = render 'answer_newsfeed_item', item: item
-          - else    
-            = render 'status_update_newsfeed_item', item: item
-          %div.comment-section
-            %table
-              - if item.comments
-                - item.comments.each do |comment|
-                  = render 'newsfeed_comments', comment: comment
-              %tr
-                %td.new-comment-field 
-                  %form 
-                    %textarea.newsfeed-new-comment{:placeholder => "Add a comment"}
-                    %button.comment-button Comment
-            %div= link_to "#{item.author.organization.open_projects.count} Available Projects", organization_path(item.author.organization.id) if item.author.organization
+  .col-lg-8#newsfeed-wrapper 
+    %div.white.newsfeed-story
+      %table
+        %tr
+          %td.left-cell
+            %div.pic
+              - if item.author.avatar?
+                = cl_image_tag(item.author.avatar.path, size: "20x20")
+              - else
+                = image_tag(item.author.small_cover, class: "md-image")
+          %td    
+            - if item.newsfeedable_type == "Project"
+              = render 'project_newsfeed_item', item: item
+            - elsif item.newsfeedable_type == "Question"
+              = render 'question_newsfeed_item', item: item
+            - elsif item.newsfeedable_type == "Answer"
+              = render 'answer_newsfeed_item', item: item
+            - else    
+              = render 'status_update_newsfeed_item', item: item
+      %div.comment-section
+        %table
+          - if item.comments
+            - item.comments.each do |comment|
+              = render 'newsfeed_comments', comment: comment
+          %tr
+            %td.new-comment-field 
+              %form 
+                %textarea.newsfeed-new-comment{:placeholder => "Add a comment"}
+                %button.comment-button Comment
+      %div= link_to "#{item.author.organization.open_projects.count} Available Projects", organization_path(item.author.organization.id) if item.author.organization
+            

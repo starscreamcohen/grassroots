@@ -1,6 +1,4 @@
-= "#{item.newsfeedable.content}"
-%span.small-text= "#{item.author.first_name} #{item.author.last_name} creates a status update at #{fix_date_time(item.created_at)}"
-%tr
-  %td.left-cell.newsfeed-voting
-
-  %td.content-cell 
+%ul.status-update-story
+  %li.status-lead= "#{item.newsfeedable.content}"
+  %li
+    %span.small-text= "#{item.author.first_name} #{item.author.last_name} creates a status update at #{fix_date_time(item.created_at)}"     

@@ -1,3 +1,21 @@
+/* Global to Newsfeed */ 
+.status-update-story {
+  padding-left: 20px;
+}
+.individual-newsfeed-story {
+  padding-left: 10px;
+}
+
+.left-cell {
+  width: 14%;
+  vertical-align: top;
+}
+
+.individual-newsfeed-header,
+.status-lead {
+  margin-bottom: 15px;
+}
+
 #status-update {
   margin-bottom: 10px;
   padding: 0px 0px;
@@ -31,48 +49,42 @@
 }
 
 #newsfeed-wrapper {
-  padding: 20px 30px 20px 0;
-    .newsfeed-category-heading {
-      margin-left: 12.15%;
-    }
-  table {
-    width: 100%;
-    margin-top: 5px;
-    .left-cell {
-      width: 8%;
-    } 
-    .newsfeed-title-wrapper {
-      vertical-align: top;
-      padding: 5px 0 0 24px;
+  padding: 0;
+  .newsfeed-story {
+    margin: 10px 0;
+    padding: 10px;
+    /* Status Update Look */ 
+          .status-update-story {
+            min-height: 70px;
+            li:first-child {
+              margin: 0 0 15px;
+            }
+          }
 
-    }
-    .user-name-cell, 
-    .content-cell {
-      vertical-align: top;
-      padding-left: 20px;
-    }
-    .newsfeed-voting {
-      vertical-align: top;
-      padding-top: 6px;
-    }
-      .vote-number {
-        display: block;
-        text-align: center;
-        margin-right: 1px;
-      }
-    .content-cell {
-      width: 80%;
-      ul {
-        margin-top: 5px;
-        .title,
-        .description {
-          margin-bottom: 5px;
-        }
-      }
+          .newsfeed-nested-table {
+            .newsfeed-icon {
+              width: 20%;
+              vertical-align: top;
+              .glyphicon-question-sign, 
+              .glyphicon-info-sign {
+                display: block;
+                font-size: 5em;
+                text-align: center;
+              }
+            }
+            .content-cell {
+              padding: 0 10px;
+            }
+          }
+    
       .comment-section {
-        width: 100%;
+        width: 84%;
+        margin: 0 0 5px 93px;
         min-height: 50px;
         background-color: #F4F4F4;
+        table {
+          width: 100% ;
+
         .previous-comment {
           display: block;
           border-bottom: 1px solid #E2E6DF;
@@ -129,6 +141,6 @@
             }
           } 
         }
+      } 
     }
   }
-}

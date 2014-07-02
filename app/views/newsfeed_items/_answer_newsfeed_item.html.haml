@@ -1,10 +1,14 @@
-= link_to "#{item.author.first_name} #{item.author.last_name}", user_path(item.author.id)
-= link_to "has provided an #{item.newsfeedable_type} on #{item.answer_categories} ", question_path(item.answers_question_id), class: 'no-links'
-%span.small-text= "at #{fix_date_time(item.created_at)}"
-%tr
-  %td.left-cell.newsfeed-voting
-
-  %td.content-cell 
-    %ul
-      %li.title= link_to item.title_of_answers_question, question_path(item.answers_question_id)
-      %li.description= item.newsfeedable.description
+%div.individual-newsfeed-story
+  %div.individual-newsfeed-header
+    %span= link_to "#{item.author.first_name} #{item.author.last_name}", user_path(item.author.id)
+    %span= link_to "has provided an #{item.newsfeedable_type} on #{item.answer_categories} ", question_path(item.answers_question_id), class: 'no-links'
+    %span.small-text= "at #{fix_date_time(item.created_at)}"
+  %table.newsfeed-nested-table
+    %tr
+      %td.newsfeed-icon
+        %div.pic
+          %span.glyphicon.glyphicon-info-sign
+      %td.content-cell 
+        %ul
+          %li.title= link_to item.title_of_answers_question, question_path(item.answers_question_id)
+          %li.description= item.newsfeedable.description
