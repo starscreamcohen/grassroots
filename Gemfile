@@ -17,7 +17,6 @@ gem 'bootstrap_form'
 gem 'sidekiq'
 gem 'paratrooper'
 gem 'cloudinary'
-gem 'unicorn'
 gem 'attachinary'
 
 group :doc do
@@ -52,6 +51,4 @@ group :test do
   gem 'shoulda-matchers'
   gem 'selenium-webdriver'
   gem 'database_cleaner'
-  gem 'capybara-webkit'
-  gem 'capybara'
 end
