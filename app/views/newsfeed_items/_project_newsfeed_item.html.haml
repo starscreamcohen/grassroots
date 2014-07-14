@@ -2,7 +2,7 @@
   %div.individual-newsfeed-header
     %span Join
     %span= link_to "#{item.author.first_name} #{item.author.last_name}'s", user_path(item.author), class: 'no-links'
-    %span= link_to "#{item.project_type} #{item.newsfeedable_type}", project_path(item.newsfeedable_id), class: 'bold'
+    %span= link_to "#{item.newsfeedable_type} #{item.newsfeedable_type}", project_path(item.newsfeedable_id), class: 'bold'
     %span.small-text
       - if item.created_at < 1.day.ago
         = "#{fix_date_time(item.created_at)}"

@@ -1,16 +1,16 @@
 class CommentsController < ApplicationController
   before_action :authorize, only: [:create, :vote]
+  before_action :find_question, only: [:create]
+  before_action :find_answer, only: [:create]
+  before_action :find_newsfeed_item, only: [:create]
 
   def create
-    @question = Question.find(params[:question_id]) if params[:question_id]
-    @answer = Answer.find(params[:answer_id]) if params[:answer_id]
-    @newsfeed_item = NewsfeedItem.find(params[:newsfeed_item_id]) if params[:newsfeed_item_id]
-    if @question && @answer
-      @comment = Comment.create(commentable: @answer, user_id: current_user.id, content: params[:comment][:content])
-    elsif @question
-      @comment = Comment.create(commentable: @question, user_id: current_user.id, content: params[:comment][:content])
+    if commenting_on_an_answer?
+      create_a_comment_on_questions_answer
+    elsif commenting_on_question?
+      create_a_comment_on_question
     else
-      @comment = Comment.create(commentable: @newsfeed_item, user_id: current_user.id, content: params[:comment][:content])
+      create_a_comment_on_newsfeed_item
     end
     redirect_to :back
   end
@@ -25,4 +25,39 @@ class CommentsController < ApplicationController
     end
     redirect_to :back
   end
+
+private
+
+  def find_question
+    @question = Question.find(params[:question_id]) if params[:question_id]
+  end
+  
+  def find_answer
+    @answer = Answer.find(params[:answer_id]) if params[:answer_id]
+  end
+
+  def find_newsfeed_item
+    @newsfeed_item = NewsfeedItem.find(params[:newsfeed_item_id]) if params[:newsfeed_item_id]
+  end
+
+  def commenting_on_an_answer?
+    @question && @answer
+  end
+
+  def commenting_on_question?
+    @question
+  end
+
+  def create_a_comment_on_questions_answer
+    @comment = Comment.create(commentable: @answer, user_id: current_user.id, content: params[:comment][:content])
+  end
+
+  def create_a_comment_on_question
+    @comment = Comment.create(commentable: @question, user_id: current_user.id, content: params[:comment][:content])
+  end
+
+  def create_a_comment_on_newsfeed_item
+    @comment = Comment.create(commentable: @newsfeed_item, user_id: current_user.id, content: params[:comment][:content])
+  end
+
 end

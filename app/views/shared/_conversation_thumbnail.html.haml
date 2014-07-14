@@ -8,9 +8,9 @@
           = link_to conversation.sender_user_name_of_recent_message, user_path(conversation.the_id_of_sender)
     %h4.header-spacing
       %strong
-        = link_to conversation.private_messages.first.subject, conversation_path(conversation.id)
+        = link_to conversation.messages.first.subject, conversation_path(conversation.id)
     %p 
-      = conversation.private_message_body
+      = conversation.message_body
     - if conversation.volunteer_application_id
       .btn-group
         %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}

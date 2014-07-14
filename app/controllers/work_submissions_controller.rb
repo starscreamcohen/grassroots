@@ -2,7 +2,7 @@ class WorkSubmissionsController < ApplicationController
   def new
     @contract = Contract.find(params[:contract_id])
     @project = Project.find(@contract.project_id)
-    @private_message = PrivateMessage.new(recipient_id: @contract.contractor_id, subject: "Work Submission for #{@project.title}")
+    @message = Message.new(recipient_id: @contract.contractor_id, subject: "Work Submission for #{@project.title}")
   end
 
   def create
@@ -13,12 +13,12 @@ class WorkSubmissionsController < ApplicationController
 private
 
   def message_params
-    params.require(:private_message).permit(:subject, :sender_id, :recipient_id, :body)
+    params.require(:message).permit(:subject, :sender_id, :recipient_id, :body)
   end
 
   def creates_new_conversation_about_work_submission_and_updates_contract
     conversation_about_work_submission = Conversation.create
-    @first_message = PrivateMessage.new(message_params.merge!(conversation_id: conversation_about_work_submission.id))
+    @first_message = Message.new(message_params.merge!(conversation_id: conversation_about_work_submission.id))
     @first_message.save
     @contract = Contract.find(params[:id])
     conversation_about_work_submission.update_columns(contract_id: @contract.id)

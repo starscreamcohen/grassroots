@@ -16,16 +16,16 @@
       %img.header-img{:src => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/t1.0-1/c204.44.552.552/s160x160/303330_10100328964694072_324662327_n.jpg"}
     .col-lg-7#title
       %h4
-        %strong= @conversation.private_messages.first.subject
-      - if @conversation.private_messages.first.sender_id == current_user.id
+        %strong= @conversation.messages.first.subject
+      - if @conversation.messages.first.sender_id == current_user.id
         %h4= "#{@first_message.recipient.first_name}" 
       - else
         %h4= "#{@first_message.sender.first_name} #{@first_message.sender.last_name}"
-      %p= @conversation.private_messages.first.created_at
+      %p= @conversation.messages.first.created_at
     
     .row
       .col-lg-12.msg-wrapper
-        - @conversation.private_messages.each do |message|
+        - @conversation.messages.each do |message|
           %p 
             %span On May 21, 2014 7:33 PM, 
             = "#{message.sender.first_name} #{message.sender.last_name}" if message.sender
@@ -35,7 +35,7 @@
 
     %section.register
       .col-lg-12
-        = form_for [@reply], url: private_messages_path do |f|
+        = form_for [@reply], url: messages_path do |f|
           %fieldset#form-field
             .form-group
               %label.control-label.col-sm-3 Body:

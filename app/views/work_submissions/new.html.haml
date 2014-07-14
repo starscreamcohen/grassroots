@@ -1,12 +1,12 @@
 %section.register
   .row
     .col-lg-7
-      = form_for(@private_message, url: work_submissions_path) do |f|
+      = form_for(@message, url: work_submissions_path) do |f|
         %fieldset#message
           .form-group
             %label.control-label.col-lg-1.recipient To: 
-            = "#{@private_message.recipient.first_name} #{@private_message.recipient.last_name}"
-            = f.hidden_field :recipient_id, :value => @private_message.recipient.id
+            = "#{@message.recipient.first_name} #{@message.recipient.last_name}"
+            = f.hidden_field :recipient_id, :value => @message.recipient.id
           .form-group
             %label.control-label.col-lg-1.sender From:
             = "#{current_user.first_name} #{current_user.last_name}"

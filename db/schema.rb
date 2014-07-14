@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140702160525) do
+ActiveRecord::Schema.define(version: 20140712171046) do
 
   create_table "accomplishments", force: true do |t|
     t.integer  "user_id"
@@ -92,6 +92,17 @@ ActiveRecord::Schema.define(version: 20140702160525) do
     t.integer  "contract_id"
   end
 
+  create_table "messages", force: true do |t|
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "subject"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
+    t.integer  "conversation_id"
+  end
+
   create_table "newsfeed_items", force: true do |t|
     t.integer  "user_id"
     t.integer  "newsfeedable_id"
@@ -121,17 +132,6 @@ ActiveRecord::Schema.define(version: 20140702160525) do
     t.string   "contact_email"
     t.string   "budget"
     t.string   "small_cover"
-  end
-
-  create_table "private_messages", force: true do |t|
-    t.integer  "sender_id"
-    t.integer  "recipient_id"
-    t.string   "subject"
-    t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "project_id"
-    t.integer  "conversation_id"
   end
 
   create_table "project_users", force: true do |t|
@@ -170,11 +170,22 @@ ActiveRecord::Schema.define(version: 20140702160525) do
     t.datetime "updated_at"
   end
 
+  create_table "skills", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "status_updates", force: true do |t|
     t.integer  "user_id"
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "talents", force: true do |t|
+    t.integer "skill_id"
+    t.integer "user_id"
   end
 
   create_table "user_conversations", force: true do |t|

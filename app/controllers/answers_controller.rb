@@ -2,12 +2,8 @@ class AnswersController < ApplicationController
   before_action :authorize, only: [:create, :vote, :comment]
 
   def create
-    answer = Answer.new(answer_params)
-    answer.author = current_user
-    answer.question_id = params[:question_id]
-    answer.save
-    newsfeed_item = NewsfeedItem.create(user_id: current_user.id)
-    answer.newsfeed_items << newsfeed_item
+    posts_an_answer_to_question
+    makes_answer_a_newsfeed_item(@answer)
     redirect_to :back
   end
 
@@ -29,5 +25,17 @@ private
 
   def answer_params
     params.require(:answer).permit(:description)    
+  end
+
+  def posts_an_answer_to_question
+    @answer = Answer.new(answer_params)
+    @answer.author = current_user
+    @answer.question_id = params[:question_id]
+    @answer.save
+  end
+
+  def makes_answer_a_newsfeed_item(answer)
+    newsfeed_item = NewsfeedItem.create(user_id: current_user.id)
+    answer.newsfeed_items << newsfeed_item
   end
 end

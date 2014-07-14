@@ -36,7 +36,7 @@ Grassroots::Application.routes.draw do
   end
   get 'join', to: 'projects#join', as: 'join'
 
-  resources :private_messages, only: [:new, :create] 
+  resources :messages, only: [:new, :create, :index] 
   resources :volunteer_applications, only: [:new, :create]
   resources :contracts, only: [:create, :new, :destroy, :update]
   resources :work_submissions, only: [:new, :create]
@@ -74,6 +74,7 @@ Grassroots::Application.routes.draw do
     end
   end
 
+  resources :work_conversations, only: [:index]
   resources :categories, only: [:show]
   resources :badges, only: [:show]
   resources :relationships, only: [:create, :destroy]
@@ -81,4 +82,6 @@ Grassroots::Application.routes.draw do
     resources :comments, only: [:create]
   end
   resources :status_updates, only: [:create]
+
+  resources :skills, only: [:create]
 end

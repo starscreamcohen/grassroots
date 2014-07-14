@@ -12,21 +12,6 @@ class NewsfeedItem < ActiveRecord::Base
     relevent_items.flatten
   end
 
-  def answers_question_id
-    answer = Answer.find(self.newsfeedable_id)
-    answer.question_id
-  end
-
-  def prints_status_update
-    status_update = StatusUpdate.find(self.newsfeedable_id)
-    status_update.content
-  end
-
-  def project_type
-    type = Project.find(self.newsfeedable_id)
-    type.skills
-  end
-
   def question_categories
     question = Question.find(self.newsfeedable_id)
     question.categories.map(&:name).flatten
@@ -42,10 +27,5 @@ class NewsfeedItem < ActiveRecord::Base
     answer = Answer.find(self.newsfeedable_id)
     question = Question.find(answer.question_id)
     question.title
-  end
-
-  def updates_content
-    update = StatusUpdate.find(self.newsfeedable_id)
-    update.content
   end
 end

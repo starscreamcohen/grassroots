@@ -10,9 +10,12 @@
       position: relative;
       left: 201px;
     }
-        #account-tabs {
-          float:right;
+        .account-tabs {
+          float: right;
           border: 0px;
+          li {
+            float: left;
+          }
         }
   } 
 
@@ -71,8 +74,83 @@
   }
 }
 
+/* Landing Page */ 
+
+.home-picture {
+  .gr-infogfx {
+    margin-left: 17%;
+  }
+  h3 {
+    width: 550px;
+    margin: 20px 11% 0px;
+    text-align: center;
+    font-weight: 700;
+  }
+}
+
+.register-button {
+  a {
+  width: 47.4%;
+  padding: 10px 0;
+  margin: 20px 0 0 17%;
+  border-radius: 3px;
+  background-color: #2BBD60;
+  display: block;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #fff;
+  }
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+#registration-form {
+  header {
+    h3 {
+      font-weight: 700;
+      margin-left: 16.6666666667%;
+    }
+  }
+  label {
+    text-align: left;
+  }
+  p {
+    margin-left: 16.6666666667%;
+  }
+  .btn-success {
+    width: 18%;
+    margin-left: 16.6666666667%;
+  }
+}
+
+#join-reasons {
+  margin: 25px 0 0;
+  p {
+    font-size: 1.25em;
+  }
+}
+
+#gr-screenshots-wrapper {
+  padding: 0 60px;
+  margin-bottom: 30px;
+  img {
+    margin: 15px 0 10px;
+  }
+  .project-index-ss, .org-profile-ss {
+    float: left;
+  }
+  .newsfeed-ss, .user-profile-ss {
+    float: right;
+  } 
+}
+
 /* Footer Section */ 
 
+/* Logged In View of Footer */  
+
+.logged-in {
 #footer-wrapper {
   padding-bottom: 40px;
 }
@@ -113,42 +191,73 @@
 
     #social-icons {
       margin-bottom: 60px;
-      li { 
+      img {
+        display: block;
         float: left;
+        width: 40px;
         padding: 0 8px 0 0;
-      }
-        a {
-          display: block;
-          width: 25px;
-          height: 25px;
-          border-radius: 50%;
       }
     }
     
-      .fb { 
-        a {
-          background-color: blue;
-          background-image: url("");
-        }
-      }
-      .twit{
-        a {
-        background-color: red;
-        background-image: url("");
-        }
-      }
-      .ln {
-        a {
-        background-color: green;
-        background-image: url("");
-        }
-      }
-      .gplus {
-        a {
-        background-color: orange;
-        background-image: url("");
-        }
-      }
     #copy {
+      margin-left: 12px;
       clear: both;
     }
+}
+
+/* Logged Out View of Footer */ 
+
+.logged-out {
+#footer-wrapper {
+  padding-bottom: 40px;
+}
+  footer {
+    color: #709494;
+    padding: 35px 0 0;
+    margin-right: 45px;
+    border-top: 2px solid #E2E6DF;
+    ul {
+      margin: 0 30%;
+      padding-left: 0px;
+      text-align: center;
+      li {
+        font-size: .95em;
+        a {
+          color: #2E5C8A;
+        }
+        a:hover {
+          color: #2E5C38;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+
+    #footer-info {
+      ul {
+        padding-left: 40px; 
+        li {
+          font-size: .95em;
+        }
+        #copy {
+          font-size: .95em;
+          display: block;
+          clear: both;
+        }
+      }
+    }
+  #social-ico-wrapper {
+    padding: 0 8%;
+     #social-icons {
+      margin: 20px 60px;
+      img {
+        display: block;
+        float: left;
+        width: 40px;
+        padding: 0 8px 0 0;
+      }
+    }
+  }
+
+}

@@ -32,7 +32,7 @@
           %a{:title => "Use the comments section to ask for a clarification on the question", :class => "comment-link"} add comment
           %div.comment-form
             = form_for @comment, url: question_comments_path(question_id: @question.id) do |f|
-              = f.text_area :content
+              = f.text_area :content, id: "Question"
               %br/
               = f.submit "Comment on the question", class: "btn btn-primary"
       %h4.bold= "#{@answers.count} Answers"

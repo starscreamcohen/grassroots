@@ -11,4 +11,4 @@
         = "Freelancer" if user.volunteer
         = "#{user.position}" if user.organization_staff
         %btn
-          = link_to "Message",new_private_message_path(user_id: user.id), class: 'btn btn-primary btn-block'
+          = link_to "Message",new_message_path(user_id: user.id), class: 'btn btn-primary btn-block'

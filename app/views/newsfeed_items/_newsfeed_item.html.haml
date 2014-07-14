@@ -7,7 +7,7 @@
           %td.left-cell
             %div.pic
               - if item.author.avatar?
-                = cl_image_tag(item.author.avatar.path, size: "20x20")
+                = cl_image_tag(item.author.avatar.path, size: "50x50")
               - else
                 = image_tag(item.author.small_cover, class: "md-image")
           %td    
@@ -17,8 +17,12 @@
               = render 'question_newsfeed_item', item: item
             - elsif item.newsfeedable_type == "Answer"
               = render 'answer_newsfeed_item', item: item
-            - else    
+            - elsif item.newsfeedable_type == "StatusUpdate"
               = render 'status_update_newsfeed_item', item: item
+            - elsif item.newsfeedable_type == "Badge" 
+              = render 'badge_newsfeed_item', item: item
+            - else 
+              = render 'relationship_newsfeed_item', item: item
       %div.comment-section
         %table
           - if item.comments
@@ -27,8 +31,8 @@
           %tr
             %td.new-comment-field
               = form_for @comment, url: newsfeed_item_comments_path(newsfeed_item_id: item.id) do |f|
-                = f.text_area :content, class: "newsfeed-new-comment"
+                = f.text_area :content, class: "newsfeed-new-comment", id: "#{item.newsfeedable_type}"
                 %br/
-                = f.submit "Comment", class: "comment-button"
+                = f.submit "Comment on the #{item.newsfeedable_type.downcase}", class: "comment-button"
       %div= link_to "#{item.author.organization.open_projects.count} Available Projects", organization_path(item.author.organization.id) if item.author.organization
             

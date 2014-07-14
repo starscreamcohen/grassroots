@@ -6,7 +6,7 @@ feature "User creates an organization" do
     john = User.first
 
     expect(page).to have_text("John Smith")
-    expect(page).to have_text("30%")
+    expect(page).to have_text("37%")
     expect(john.reload.organization_administrator).to eq(nil)
 
     click_on("Update Your Profile and Find Your Organization")
@@ -32,10 +32,8 @@ feature "User creates an organization" do
 
   def updates_profile_and_becomes_org_administrator
     fill_in "Position", with: "john@example.com"
-    fill_in "Skills", with: "password"
     fill_in "Interests", with: "John"
     fill_in "Last name", with: "Smith"  
-    fill_in "Skills", with: "Grant Writing"
     fill_in "Contact me for", with: "Opportunities at Huggey Bear Land"  
     fill_in "Bio", with: "I'm from Brooklyn. chyea."
     fill_in "Organization name box", with: "Huggey Bear Land"
