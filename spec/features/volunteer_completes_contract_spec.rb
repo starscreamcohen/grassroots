@@ -9,12 +9,12 @@ feature "Either volunteer or project administrator ends contract" do
    goal: "We want 1 out of every 5 Americans to have a huggey bear.")}
 
 let(:alice) {Fabricate(:user, organization_id: 1, first_name: "Alice", last_name: "Smith", email: "alice@huggey_bear.org", 
-  interests: "Animal Rights", skills: "Grant Writing", street1: nil, street2: nil, 
+  interests: "Animal Rights", street1: nil, street2: nil, 
   city: "New York", state_id: "NY", phone_number: nil, zip: nil, organization_administrator: true, 
   organization_staff: nil, volunteer: nil, position: "Executive Director", password: "password", user_group: "nonprofit")}
 
 let(:bob) {Fabricate(:user, first_name: "Bob", last_name: "Seltzer", email: "jacob@example.org", 
-  interests: "Web Development", skills: "ROR", street1: nil, street2: nil, 
+  interests: "Web Development", street1: nil, street2: nil, 
   city: "New York", state_id: "NY", phone_number: nil, zip: nil, organization_administrator: nil, 
   organization_staff: nil, volunteer: true, password: "password", user_group: "volunteer")}
   
@@ -127,7 +127,7 @@ let(:word_press) {Fabricate(:project, title: "Need WordPress Site", description:
     click_on("Project Complete")
     
     
-    fill_in "private_message[body]", with: "This is done"
+    fill_in "message[body]", with: "This is done"
     click_on('Create')
     visit user_path(volunteer.id)
     expect(page).to have_text("Submitted Work 1")
@@ -140,7 +140,7 @@ let(:word_press) {Fabricate(:project, title: "Need WordPress Site", description:
     expect(page).to have_text("Contract Complete")
     click_on('Contract Complete')
     click_on('Completed')
-    fill_in "private_message[body]", with: "Great work."
+    fill_in "message[body]", with: "Great work."
     click_on('Send')
     visit organization_path(administrator.organization.id)
     expect(page).to have_text("Completed Projects 1")
@@ -152,7 +152,7 @@ let(:word_press) {Fabricate(:project, title: "Need WordPress Site", description:
     visit projects_path
     expect(page).to have_content("Need WordPress Site")
     click_on('Join Project')
-    fill_in "private_message[body]", with: "I'd like to join this project"
+    fill_in "message[body]", with: "I'd like to join this project"
     
     click_on('Create')
     sign_out   
@@ -166,7 +166,7 @@ let(:word_press) {Fabricate(:project, title: "Need WordPress Site", description:
     click_on("Accept")
     #page.find(:xpath, "//a[@href='/contracts?conversation_id=#{Conversation.first.id}&volunteer_application_id=#{VolunteerApplication.first.id}']").click
     
-    fill_in "private_message[body]", with: "I have accepted your participation"
+    fill_in "message[body]", with: "I have accepted your participation"
     click_on('Send')
     visit conversations_path
     expect(page).to have_text("Drop Contract")

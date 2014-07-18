@@ -1,7 +1,33 @@
-.container.theme-showcase{role: "main"}
-	.jumbotron
-		%h1 Hello, World.
-		%p
-			= link_to "Sign In", sign_in_path unless current_user
-		%p
-			= link_to "Register", new_user_path unless current_user
+.col-lg-8.col-lg-offset-2.col-sm-9.col-sm-offset-3#landing_pane
+  %div.home-picture
+    %img.gr-infogfx{:src => 'http://www.grassroots.org/images/infographic1.jpg'}/ 
+    %h3 Grassroots helps nonprofits with the talent and tools to build their organizational capacity. 
+  #registration-form
+    = bootstrap_form_for(@user, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-7") do |f|
+      %header
+        %h3 Join Grassroots.org for free now 
+      %fieldset
+        = f.text_field :first_name, hide_label: :true, placeholder: "First Name"
+        = f.text_field :last_name, hide_label: :true, placeholder: "Last Name"
+        = f.email_field :email, hide_label: :true, placeholder: "Email Address"
+        = f.password_field :password, hide_label: :true, placeholder: "Password" 
+        = f.form_group :user_type, label_col: "col-sm-7 col-sm-offset-2", control_col: "col-sm-6 col-sm-offset-2", label: {text: "User Type"} do
+          = f.radio_button :user_group, "nonprofit", label: "Are you a nonprofit", inline: true
+          = f.radio_button :user_group, "volunteer", label: "Are you a volunteer", inline: true
+        %p.small-text By signing up, you agree to our #{link_to 'Terms', '#'}. 
+        = f.submit "Join Now", class: "btn btn-success"
+
+  %div#join-reasons      
+    %h3.bold You can rely on us
+    %p The operations of a nonprofit are overwhelming. A charity just wants to deliver its services as efficiently as possible -- technological barriers should not be there. As a member of Grassroots.org, you have access to a tool kit to bootstrap your nonprofit and a community of other nonprofit organizations and volunteers. 
+
+    %h3.bold Community
+    %p We want to connect your charity with volunteers who can support your operations. Sign in and create a project today to have a chance to engage with creative and technical talent. 
+
+    %h3.bold Services
+    %p As a member of Grassroots you have access to tech tools and products that will help you not only get online but also leverage your virtual presence to help your mission grow and develop.
+.col-lg-12#gr-screenshots-wrapper
+  = image_tag("project_index.png", size: "500x286", class: "project-index-ss")
+  = image_tag("newsfeed.png", size: "500x287", class: "newsfeed-ss")
+  = image_tag("org_profile.png", size: "500x267", class: "org-profile-ss")
+  = image_tag("user_profile.png", size: "500x240", class: "user-profile-ss")

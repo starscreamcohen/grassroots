@@ -1,7 +1,9 @@
 .row#profile-details-row
   .col-lg-3
-    %a.thumbnail.img-thumb{href: ""}
-      %img{alt: "", "data-src" => "holder.js/100%x180"}/
+    - if @organization.logo?
+      = cl_image_tag(@organization.logo.path, { size: '150x150', crop: :fit })
+    - else
+      = image_tag(@organization.small_cover.to_s, size: "150x150")
   .col-lg-8#org-info
     %h2 
       = @organization.name

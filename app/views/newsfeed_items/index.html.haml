@@ -1,2 +1,11 @@
+.row.row-custom
+  .col-lg-2
+  .col-lg-8.white#status-update
+    %div.update-text
+      %p.bold Post an Update
+    = form_for @status_update do |f|
+      = f.text_area :content, rows: 1, class: 'status-update-field', placeholder: "What's happening in your organization?"
+      %div.update-button-wrapper
+        = f.submit 'Update', class: 'comment-button'
 - @relevent_activity.each do |item|
   = render 'newsfeed_item', item: item

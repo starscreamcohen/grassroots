@@ -13,7 +13,7 @@
           - elsif @project.state == "open"
             = link_to "Request to Join", new_volunteer_application_path(project_id: @project.id), class: "btn btn-primary btn-lg btn-project" 
           - elsif @project.state == "in production"
-            = link_to "Project Complete", new_private_message_path(project_id: @project.id), class: "btn btn-primary btn-lg btn-project"  
+            = link_to "Project Complete", new_message_path(project_id: @project.id), class: "btn btn-primary btn-lg btn-project"  
       .col-lg-4
         - if @project.project_admin || @project.volunteers.first == current_user 
           - if @project.state == "open"
@@ -57,11 +57,17 @@
         %div.notice-wrapper
           %button.notice
             = link_to @project.organization.name, organization_path(@project.organization.id)
-          %img.testing{:src => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJdY7uIWUze-daCnYOvAq3oXVWI1pnUZXs2Y4UK3SmyjJx_fMQvVNcmdgk"}/
+          - if @project.organization.logo?
+            = link_to cl_image_tag(@project.organization.logo.path, { size: '35x35', crop: :fit }), project_path(@project.id)
+          - else
+            = link_to image_tag(@project.organization.small_cover.to_s, size: "35x35"), project_path(@project.id)
         %p.bold.gr-green-font Project Admin
         %div
           %button.notice= link_to "#{@project.project_admin.first_name} #{@project.project_admin.last_name}", user_path(@project.project_admin.id)
-          %img.testing{:src => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/t1.0-1/c204.44.552.552/s160x160/303330_10100328964694072_324662327_n.jpg"}
+          - if @project.project_admin.avatar?
+            = cl_image_tag(@project.project_admin.avatar.path, size: "33x33")
+          - else
+            = image_tag(@project.project_admin.small_cover.to_s, class: "testing")
         %p.bold.gr-green-font= @project.state == "open" ? "Volunteer Requests" : "Project Volunteer"
         - if @project.applicants == []
           %em No volunteer have applied yet. 

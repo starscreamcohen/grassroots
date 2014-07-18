@@ -1,0 +1,16 @@
+%ul.status-update-story
+  %li.status-lead
+    = "#{item.author.first_name} #{item.author.last_name} follows"
+    %table.newsfeed-nested-table
+      %tr
+        %td
+          - if item.newsfeedable.leader.avatar?
+            = cl_image_tag(item.newsfeedable.leader.avatar.path, { size: '50x50' })
+          - else
+            = image_tag(item.newsfeedable.leader.small_cover.to_s, size: "50x50")
+          %div.pic
+            %span
+        %td.content-cell 
+          %ul
+            %li.title
+              = link_to "#{item.newsfeedable.leader.first_name} #{item.newsfeedable.leader.last_name}", user_path(item.newsfeedable.leader.id)

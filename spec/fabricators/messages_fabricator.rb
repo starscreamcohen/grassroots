@@ -1,0 +1,3 @@
+Fabricator(:message) do
+  
+end

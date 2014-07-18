@@ -1,0 +1,13 @@
+.row#inbox-wrapper
+  .col-lg-2#tabs
+    %ul.nav.nav-tabs.nav-stacked
+      %li
+        = link_to "Inbox", conversations_path
+      %li 
+        = link_to "Messages", messages_path
+      %li 
+        = link_to "Work", work_conversations_path
+  .col-lg-9 
+    - if @work
+      - @work.each do |conversation|
+        = render 'shared/conversation_thumbnail', conversation: conversation

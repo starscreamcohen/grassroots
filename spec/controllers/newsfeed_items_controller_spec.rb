@@ -15,10 +15,12 @@ describe NewsfeedItemsController, :type => :controller do
       get :index
       expect(response).to render_template(:index)
     end
+    
     it "sets @relevant_activity" do
       get :index
       expect(assigns(:relevent_activity)).to match_array([])
     end
+
     it "shows all the activity of a followed user" do
       Fabricate(:relationship, follower_id: bob.id, leader_id: alice.id )
       graphic_design = Fabricate(:project, title: "graphic design", organization_id: huggey_bears.id)
@@ -31,6 +33,16 @@ describe NewsfeedItemsController, :type => :controller do
 
       get :index
       expect(assigns(:relevent_activity)).to match_array([newsfeed_item, newsfeed_item2])
+    end
+
+    it "sets a newly initialized @user_update" do
+      get :index
+      expect(assigns(:status_update)).to be_instance_of(StatusUpdate)
+    end
+
+    it "sets a newly initialized @comment" do
+      get :index
+      expect(assigns(:comment)).to be_instance_of(Comment)
     end
   end
 end

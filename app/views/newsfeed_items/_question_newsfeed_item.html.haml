@@ -1,0 +1,19 @@
+%div.individual-newsfeed-story
+  %div.individual-newsfeed-header    
+    %span= "Help #{item.author.first_name} #{item.author.last_name} on this "
+    %span= link_to "#{item.newsfeedable_type} on #{item.question_categories}", question_path(item.newsfeedable_id), class: 'no-links'
+    %span.small-text
+      - if item.created_at < 1.day.ago
+        = "#{fix_date_time(item.created_at)}"
+      - else
+        = "#{time_ago_in_words(item.created_at)}"
+
+  %table.newsfeed-nested-table
+    %tr
+      %td.newsfeed-icon
+        %div.pic
+          %span.glyphicon.glyphicon-question-sign
+      %td.content-cell 
+        %ul
+          %li.title= link_to item.newsfeedable.title, question_path(item.newsfeedable_id)
+          %li.description= item.newsfeedable.description

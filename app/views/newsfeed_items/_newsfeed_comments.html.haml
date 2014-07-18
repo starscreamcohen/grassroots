@@ -1,0 +1,15 @@
+%tr.comment-row
+  %td.comment-pic-wrapper
+    %div.pic
+      %img.tiny-image
+        - if comment.author.avatar?
+          = cl_image_tag(comment.author.avatar.path, size: "20x20")
+        - else
+          = image_tag(comment.author.small_cover, class: "md-image")
+    -# Placeholder
+  %td.comment-content-wrapper 
+    %span= link_to "#{comment.author.first_name} #{comment.author.last_name}", user_path(comment.author.id), class: "no-links"
+    %br/
+    %span= "#{comment.content}"
+    %div.comment-notifications
+      %span.small-text= time_ago_in_words(comment.created_at)

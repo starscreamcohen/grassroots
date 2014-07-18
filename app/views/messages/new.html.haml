@@ -1,0 +1,22 @@
+%section.register
+  .row
+    .col-lg-7 
+      = form_for [@message], html: {class: 'form-horizontal'} do |f|
+        %fieldset#message
+          .form-group
+            %label.control-label.col-lg-1.recipient To: 
+            = "#{@message.recipient.first_name} #{@message.recipient.last_name}"
+            = f.hidden_field :recipient_id, :value => @message.recipient.id
+          .form-group
+            %label.control-label.col-lg-1.sender From:
+            = "#{current_user.first_name} #{current_user.last_name}"
+            = f.hidden_field :sender_id, :value => current_user.id
+          .form-group
+            %label.control-label.col-lg-1 Subject:
+            = f.text_field :subject, class: "form-control"
+          .form-group
+            %label.control-label.col-lg-1 Body:
+            = f.text_area :body, cols: 6, rows: 6, class: "form-control"
+            = hidden_field_tag 'project_id', @project.id if @project
+          .form-group 
+            = f.submit "Create", class: "btn btn-lg btn-primary pull-right"

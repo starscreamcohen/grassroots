@@ -10,16 +10,16 @@ feature  "Administrator contracts a volunteer"do
       goal: "We want 1 out of every 5 Americans to have a huggey bear.")
 
     alice = Fabricate(:user, organization_id: 1, first_name: "Alice", last_name: "Smith", email: "alice@huggey_bear.org", 
-      interests: "Animal Rights", skills: "Grant Writing", street1: nil, street2: nil, 
+      interests: "Animal Rights", street1: nil, street2: nil, 
       city: "New York", state_id: "NY", phone_number: nil, zip: nil, organization_administrator: true, 
       organization_staff: nil, volunteer: nil, position: "Executive Director", password: "password", user_group: "nonprofit")
     huggey_bear.update_columns(user_id: 1)
     bob = Fabricate(:user, first_name: "Bob", last_name: "Seltzer", email: "jacob@example.org", 
-      interests: "Web Development", skills: "ROR", street1: nil, street2: nil, 
+      interests: "Web Development", street1: nil, street2: nil, 
       city: "New York", state_id: "NY", phone_number: nil, zip: nil, organization_administrator: nil, 
       organization_staff: nil, volunteer: true, password: "password", user_group: "volunteer")
     word_press = Fabricate(:project, title: "Need WordPress Site", description: "I want a nice looking WordPress site for my nonprofit", 
-      skills: "web development", causes: "animals", deadline: Date.today + 1.month, user_id: 1, organization_id: 1, estimated_hours: 22, state: "open")
+      causes: "animals", deadline: Date.today + 1.month, user_id: 1, organization_id: 1, estimated_hours: 22, state: "open")
     
     user_signs_in(bob)
     expect(page).to have_content("You are logged in!")
@@ -32,7 +32,7 @@ feature  "Administrator contracts a volunteer"do
     visit conversations_path
     page.find(:xpath, "//a[@href='/contracts?conversation_id=#{Conversation.first.id}&volunteer_application_id=#{VolunteerApplication.first.id}']").click
     
-    fill_in "private_message[body]", with: "I have accepted your participation"
+    fill_in "message[body]", with: "I have accepted your participation"
     click_on('Send')
     visit conversations_path
     expect(page).to have_text("Drop Contract")
@@ -51,14 +51,14 @@ feature  "Administrator contracts a volunteer"do
     visit projects_path
     expect(page).to have_content("Need WordPress Site")
     click_on('Join Project')
-    fill_in "private_message[body]", with: "I'd like to join this project"
+    fill_in "message[body]", with: "I'd like to join this project"
     click_on('Create')   
   end
 
   def project_administrator_contracts_volunteer_and_accepts_application(admin)
     visit conversations_path
     click_on('Accept')
-    fill_in "private_message[body]", with: "I have accepted your participation"
+    fill_in "message[body]", with: "I have accepted your participation"
     click_on('Send')
     visit conversations_path
     expect(page).to have_text("Drop Volunteer")

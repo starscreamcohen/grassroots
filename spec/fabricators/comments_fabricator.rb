@@ -1,0 +1,3 @@
+Fabricator(:comment) do
+  
+end

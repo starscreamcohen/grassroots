@@ -18,20 +18,20 @@ describe VolunteerApplicationsController, :type => :controller do
         expect(response).to render_template(:new)
       end
     
-      it "sets @private_message" do
-        expect(assigns(:private_message)).to be_instance_of(PrivateMessage)
+      it "sets @message" do
+        expect(assigns(:message)).to be_instance_of(Message)
       end
 
-      it "sets the project id in the initialized @private_message" do
-        expect(assigns(:private_message).project_id).to eq(1)
+      it "sets the project id in the initialized @message" do
+        expect(assigns(:message).project_id).to eq(1)
       end
       
-      it "sets the recipient value in the initialized @private_message" do
-        expect(assigns(:private_message).recipient).to eq(alice)
+      it "sets the recipient value in the initialized @message" do
+        expect(assigns(:message).recipient).to eq(alice)
       end
   
-      it "sets the subject line with the value of the project title with Project Request: in the initialized @private_message" do
-        expect(assigns(:private_message).subject).to eq("Project Request: word press website")
+      it "sets the subject line with the value of the project title with Project Request: in the initialized @message" do
+        expect(assigns(:message).subject).to eq("Project Request: word press website")
       end
     end
 
@@ -49,52 +49,52 @@ describe VolunteerApplicationsController, :type => :controller do
     end
 
     it "renders the current user's inbox" do
-      post :create, project_id: word_press.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
+      post :create, project_id: word_press.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
       expect(response).to redirect_to(conversations_path)
     end
    
     it "creates a volunteer application" do
-      post :create, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}, project_id: word_press.id
+      post :create, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}, project_id: word_press.id
       expect(VolunteerApplication.count).to eq(1)
     end
    
     it "associates the application with the volunteer" do
-      post :create, project_id: word_press.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
+      post :create, project_id: word_press.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
       expect(VolunteerApplication.first.applicant).to eq(bob)
     end
    
     it "associates the application with the project" do
-      post :create, project_id: word_press.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
+      post :create, project_id: word_press.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
       expect(VolunteerApplication.first.project).to eq(word_press)
     end
     
     it "associates the application with a conversation" do  
-      post :create, project_id: word_press.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
+      post :create, project_id: word_press.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
       expect(Conversation.first.volunteer_application_id).to eq(1)
     end
 
     it "associates the conversation with the volunteer" do
-      post :create, project_id: word_press.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
+      post :create, project_id: word_press.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
       
       convo = Conversation.first
-      bobs_sent_message = convo.private_messages.first
+      bobs_sent_message = convo.messages.first
       expect(bob.sent_messages.first).to eq(bobs_sent_message)
     end
 
     it "creates a following relationship" do
-      post :create, project_id: word_press.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
+      post :create, project_id: word_press.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
 
       expect(Relationship.count).to eq(2)
     end
     
     it "makes the volunteer follow the administrator" do
-      post :create, project_id: word_press.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
+      post :create, project_id: word_press.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
 
       expect(bob.follows?(alice)).to eq(true)
     end
 
     it "makes the administrator follow the volunteer" do
-      post :create, project_id: word_press.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
+      post :create, project_id: word_press.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Please let me join your project", body: "I'd like to contribute to your project"}
 
       expect(alice.follows?(bob)).to eq(true)
     end

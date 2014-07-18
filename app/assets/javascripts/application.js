@@ -19,6 +19,11 @@
 //= require cloudinary/jquery.cloudinary
 //= require attachinary
 
+// Global Variables 
+
+var _commentBox;
+
+
 jQuery(function() {
   return $('#user_organization_name_box').autocomplete({
     source: $('#user_organization_name_box').data('autocomplete-source')
@@ -26,8 +31,8 @@ jQuery(function() {
  });
 
 $(document).ready(function() {
-  return $('#user_skills').autocomplete({
-    source: $('#user_skills').data('autocomplete-source')
+  return $('#skill_name').autocomplete({
+    source: $('#skill_name').data('autocomplete-source')
   });
   $('.attachinary-input').attachinary()
 });
@@ -49,7 +54,19 @@ $(document).ready(function() {
     $(this).siblings('.comment-form').toggle();
     $(this).toggle();
   });
+
+  $('.newsfeed-new-comment').on('click', function() {
+    $(this).addClass('new-comment-field-expanded');
+    $(this).siblings('.comment-button').show();
+  });
+  $('.newsfeed-new-comment').on('keypress', function() {
+    $(this).siblings('.comment-button').addClass('comment-button-active');
+  });
+  $('.newsfeed-new-comment').on('change', function () {
+    
+  });
 });
 
+// Create function that finds if comment field is empty
 
 

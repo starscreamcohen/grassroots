@@ -9,7 +9,7 @@ feature 'Creating a project' do
       budget: "$22,000,000.00", contact_number: "555-555-5555", contact_email: "test@example.com",
       goal: "We want 1 out of every 5 Americans to have a huggey bear.")
     alice = User.create(organization_id: 1, first_name: "Alice", last_name: "Smith", email: "alice@huggey_bear.org", 
-      interests: "Animal Rights", skills: "Grant Writing", street1: nil, street2: nil, 
+      interests: "Animal Rights", street1: nil, street2: nil, 
       city: "New York", state_id: "NY", phone_number: nil, zip: nil, organization_administrator: true, 
       organization_staff: nil, volunteer: nil, position: "Executive Director", password: "password", user_group: "nonprofit")
     huggey_bears.update_columns(user_id: 1)
@@ -26,7 +26,6 @@ feature 'Creating a project' do
   def fills_out_project_form
     #expect(page).to have_select('project_skills', selected: "Web Development")
     #find_field('project_skills').find('option[Web Development]').text
-    find("#project_skills").find(:xpath,"./option[contains(.,'Web Development')]").selected?
     find("#project_deadline_2i").find(:xpath,"./option[contains(.,'October')]").selected?
     find("#project_deadline_3i").find(:xpath,"./option[contains(.,'15')]").selected?
     find("#project_deadline_1i").find(:xpath,"./option[contains(.,'2014')]").selected?

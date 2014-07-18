@@ -23,10 +23,11 @@
           %strong 
             = "#{@user.city}"
         %h5.header-spacing
-          %strong 
-            = "#{@user.skills}"
-        %btn
-          = link_to "Message", new_private_message_path(user_id: @user.id), class: 'btn btn-primary btn-lg btn-block' unless current_user
+          %strong
+            Skill set:
+            = "#{@user.skills.map(&:name).join(', ')}"
+        %btn.pull-right
+          = link_to "Message", new_message_path(user_id: @user.id), class: 'btn btn-primary btn-lg btn-block' unless current_user == @user
   .col-lg-2
     %p.pull-right
       = link_to "Edit Your Profile", edit_user_path(current_user) if @user.organization
@@ -119,7 +120,10 @@
             %div.user-follower
               %div.user-follower-info
                 %div.pic
-                  %img{:src => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/t1.0-1/c204.44.552.552/s160x160/303330_10100328964694072_324662327_n.jpg"}
+                  - if relationship.leader.avatar?
+                    = cl_image_tag(relationship.leader.avatar.path, { size: '50x50' })
+                  - else
+                    = image_tag(relationship.leader.small_cover.to_s, size: "50x50")
                 %div.network-user-content  
                   %div.name
                   = link_to "#{relationship.leader.first_name} #{relationship.leader.last_name}", user_path(relationship.leader.id)
@@ -127,7 +131,7 @@
                     %p 
                       = "#{relationship.leader.position} at"
                       %span 
-                        = link_to "#{relationship.leader.organization_name}", user_path(relationship.leader.id)
+                        = link_to "#{relationship.leader_organization_name}", user_path(relationship.leader.id) if relationship.leader_organization_name
                   %div.follower-location
                     %p 
                       = "#{relationship.leader.city}" 

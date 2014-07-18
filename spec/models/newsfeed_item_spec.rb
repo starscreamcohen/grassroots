@@ -62,4 +62,15 @@ describe NewsfeedItem do
 
     expect(NewsfeedItem.from_users_followed_by(bob).count).to eq(3)
   end
+
+  it "shows the users own newsfeed items" do
+    status_update1 = Fabricate(:status_update, content: "I had a great day today")
+    newsfeed_item = NewsfeedItem.create(user_id: alice.id)
+    status_update1.newsfeed_items << newsfeed_item
+
+    accounting = Fabricate(:project, title: "accounting", organization_id: huggey_bears.id, created_at: 5.days.ago)
+    newsfeed_item2 = NewsfeedItem.create(user_id: alice.id)
+    accounting.newsfeed_items << newsfeed_item2
+    expect(NewsfeedItem.from_users_followed_by(alice)).to eq([newsfeed_item, newsfeed_item2])
+  end
 end

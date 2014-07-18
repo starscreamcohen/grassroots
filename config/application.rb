@@ -8,5 +8,6 @@ module Grassroots
   class Application < Rails::Application
     config.time_zone = 'Central Time (US & Canada)'
     config.i18n.enforce_available_locales = true
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end

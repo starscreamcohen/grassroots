@@ -9,15 +9,15 @@ feature 'User removes another user' do
     goal: "We want 1 out of every 5 Americans to have a huggey bear.")}
 
   let!(:alice) {Fabricate(:user, organization_id: 1, first_name: "Alice", last_name: "Smith", email: "alice@huggey_bear.org", 
-    interests: "Animal Rights", skills: "Grant Writing", street1: nil, street2: nil, 
+    interests: "Animal Rights", street1: nil, street2: nil, 
     city: "New York", state_id: "NY", phone_number: nil, zip: nil, organization_administrator: true, 
     organization_staff: nil, volunteer: nil, position: "Executive Director", password: "password", user_group: "nonprofit")}
   let!(:bob) {Fabricate(:user, organization_id: 1, first_name: "Bob", last_name: "Adams", email: "bob@huggey_bear.org", 
-    interests: "Animal Rights", skills: "Web Development", street1: nil, street2: nil, 
+    interests: "Animal Rights", street1: nil, street2: nil, 
     city: "New York", state_id: "NY", phone_number: nil, zip: nil, organization_administrator: true, 
     organization_staff: nil, volunteer: nil, position: "Intern", password: "password", user_group: "nonprofit")}
   let!(:catherine) {Fabricate(:user, organization_id: 1, first_name: "Catherine", last_name: "Hemingway", email: "cat@huggey_bear.org", 
-    interests: "Animal Rights", skills: "Graphic Design", street1: nil, street2: nil, 
+    interests: "Animal Rights", street1: nil, street2: nil, 
     city: "New York", state_id: "NY", phone_number: nil, zip: nil, organization_administrator: true, 
     organization_staff: nil, volunteer: nil, position: "Program Manager", password: "password", user_group: "nonprofit")}
 

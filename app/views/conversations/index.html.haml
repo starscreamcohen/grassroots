@@ -2,15 +2,11 @@
   .col-lg-2#tabs
     %ul.nav.nav-tabs.nav-stacked
       %li
-        %a{:href => "#"}Inbox
+        = link_to "Inbox", conversations_path
       %li 
-        %a{:href => "#"}Messages
+        = link_to "Messages", messages_path
       %li 
-        %a{:href => "#"}Projects
-      %li 
-        %a{:href => "#"}Sent
-      %li 
-        %a{:href => "#"}Archived
+        = link_to "Work", work_conversations_path
   .col-lg-9 
     - if @conversations
       - @conversations.each do |conversation|

@@ -50,6 +50,7 @@ describe OrganizationAdmin::ProjectsController, :type => :controller do
       post :create, project: Fabricate.attributes_for(:project, title: "WordPress Site")
       expect(Project.count).to eq(1)
     end
+    
     it "redirects to the organization administrator to the view project's show view" do
       post :create, project: Fabricate.attributes_for(:project, title: "WordPress Site")
 

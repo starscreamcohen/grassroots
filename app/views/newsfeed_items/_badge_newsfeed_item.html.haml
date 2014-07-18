@@ -1,0 +1,23 @@
+%div.individual-newsfeed-story
+  %div.individual-newsfeed-header
+    %span= link_to "#{item.author.first_name} #{item.author.last_name}'s", user_path(item.author), class: 'no-links'
+    %span= "earned a #{item.newsfeedable_type}"
+    %span.small-text
+      - if item.created_at < 1.day.ago
+        = "#{fix_date_time(item.created_at)}"
+      - else
+        = "#{time_ago_in_words(item.created_at)}"
+  %table.newsfeed-nested-table
+    %tr
+      %td.newsfeed-icon
+        %div.pic
+          %img.lg-image
+            .col-lg-3.col-sm-6#badges-wrapper
+              .thumbnail.badges
+                %div.badge-icon
+                  .glyphicon.glyphicon-star-empty
+                %div.badge-info 
+                  %ul
+                    %li
+                      = link_to item.newsfeedable.name, badge_path(item.newsfeedable.id)
+                    %li 10/12/2014

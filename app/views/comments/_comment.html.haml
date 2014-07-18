@@ -1,7 +1,14 @@
 %table.comment-cell
   %tr
     %td.comment-vote
-      %span.glyphicon.glyphicon-circle-arrow-up
+      - if comment.commentable_type == 'Question'
+        = link_to votes_question_comment_path(question_id: @question.id, id: comment.id, vote: true), method: 'post' do
+          %span.glyphicon.glyphicon-circle-arrow-up
+            = comment.total_votes
+      - else
+        = link_to votes_question_answer_comment_path(answer_id: comment.commentable_id, question_id: @question.id, id: comment.id, vote: true), method: 'post' do
+          %span.glyphicon.glyphicon-circle-arrow-up
+            = comment.total_votes
     %td.comment-content
       %p
       = "#{comment.content}"

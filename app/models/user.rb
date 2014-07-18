@@ -3,8 +3,9 @@ class User < ActiveRecord::Base
   has_secure_password validations: false
   belongs_to :organization
   has_one :administrated_organization, foreign_key: 'user_id', class_name: 'Organization'
-  has_many :sent_messages, class_name: 'PrivateMessage', foreign_key: 'sender_id'
-  has_many :received_messages, -> {order('created_at DESC')}, class_name: 'PrivateMessage', foreign_key: 'recipient_id'
+  has_many :sent_messages, class_name: 'Message', foreign_key: 'sender_id'
+  has_many :received_messages, -> {order('created_at DESC')}, class_name: 'Message', foreign_key: 'recipient_id'
+  has_many :conversations, through: :received_messages
   
   has_many :administrated_projects, through: :administrated_organization, source: :projects
 
@@ -18,8 +19,6 @@ class User < ActiveRecord::Base
   has_many :assignments, class_name: "Contract", foreign_key: 'volunteer_id'
   has_many :projects, through: :contracts, source: :volunteer
 
-  has_many :questions
-
   has_many :accomplishments
   has_many :badges, through: :accomplishments
 
@@ -27,13 +26,20 @@ class User < ActiveRecord::Base
 
   has_many :newsfeed_items
 
+  has_many :questions
+  has_many :votes
+  has_many :comments
+  has_many :answers
+
+  has_many :talents
+  has_many :skills, through: :talents
 
   validates_presence_of :email, :password, :first_name, :last_name, :user_group
   validates_uniqueness_of :email
 
   before_create :generate_token
 
-  has_attachment  :avatar, accept: [:jpg, :png, :gif]
+  has_attachment :avatar, accept: [:jpg, :png, :gif]
 
   def open_applications
     requests_to_volunteer.where(accepted: nil, rejected: nil).to_a
@@ -71,18 +77,28 @@ class User < ActiveRecord::Base
     self.organization = Organization.find_by_name(name) if name.present?
   end
 
-  def private_messages
+  def messages
     messages = self.sent_messages + self.received_messages
     messages.sort!
   end
 
-  def user_conversations
+  def inbox
     collection = self.received_messages.select(:conversation_id)
     all_conversations = collection.map do |member|
       convo_id = member.conversation_id
       Conversation.find(convo_id)
     end  
     all_conversations.sort! {|a, b| a.updated_at <=> b.updated_at}
+  end
+
+  def only_conversations
+    self.conversations.where(volunteer_application_id: nil, contract_id: nil).to_a
+  end
+
+  def only_conversations_about_work
+    contracts = self.conversations.where(contract_id: true).to_a
+    applications = self.conversations.where(volunteer_application_id: true).to_a
+    contracts + applications
   end
 
   def organization_name
@@ -104,8 +120,8 @@ class User < ActiveRecord::Base
   end
 
   def update_profile_progress
-    profile_completeness = [self.email, self.first_name, self.last_name, self.skills, 
-      self.interests, self.contact_reason, self.state_abbreviation, self.city, self.bio, self.position]
+    profile_completeness = [self.email, self.first_name, self.last_name, 
+      self.contact_reason, self.state_abbreviation, self.city, self.bio, self.position]
     progress = 0
     profile_completeness.each do |field|
       progress += 1 unless field.nil? || field == ""
@@ -127,6 +143,11 @@ class User < ActiveRecord::Base
     !(self.follows?(another_user) || self == another_user)
   end
 
-private
+  def follow!(another_user)
+    self.following_relationships.create!(leader_id: another_user.id)
+    relationship = Relationship.where(leader_id: another_user, follower_id: self.id).first
+    newsfeed_item = NewsfeedItem.create(user_id: self.id)
+    relationship.newsfeed_items << newsfeed_item
+  end
 
 end

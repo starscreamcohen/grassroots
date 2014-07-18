@@ -3,6 +3,8 @@ class Organization < ActiveRecord::Base
   has_many :projects
   has_many :users
 
+  has_attachment :logo, accept: [:jpg, :png, :gif]
+
   def open_projects
     projects.select do |member|
       member.state == "open" && member.deadline > Date.today

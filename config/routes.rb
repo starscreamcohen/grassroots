@@ -36,7 +36,7 @@ Grassroots::Application.routes.draw do
   end
   get 'join', to: 'projects#join', as: 'join'
 
-  resources :private_messages, only: [:new, :create] 
+  resources :messages, only: [:new, :create, :index] 
   resources :volunteer_applications, only: [:new, :create]
   resources :contracts, only: [:create, :new, :destroy, :update]
   resources :work_submissions, only: [:new, :create]
@@ -52,17 +52,36 @@ Grassroots::Application.routes.draw do
   resources :questions, only: [:index, :show, :new, :create, :edit, :update] do
     
     member do
-      post '/votes', to: 'questions#vote' 
+      post '/votes', to: 'questions#vote'
     end
 
-    resources :comments, only: [:create]
+    resources :comments, only: [:create] do
+      member do
+        post '/votes', to: 'comments#vote'
+      end
+    end
+
     resources :answers, only: [:create] do
-      resources :comments, only: [:create]
+      member do
+        post '/votes', to: 'answers#vote'
+      end
+      
+      resources :comments, only: [:create] do
+        member do
+          post '/votes', to: 'comments#vote'
+        end
+      end
     end
   end
 
+  resources :work_conversations, only: [:index]
   resources :categories, only: [:show]
   resources :badges, only: [:show]
   resources :relationships, only: [:create, :destroy]
-  resources :newsfeed_items, only: [:index]
+  resources :newsfeed_items, only: [:index] do
+    resources :comments, only: [:create]
+  end
+  resources :status_updates, only: [:create]
+
+  resources :skills, only: [:create]
 end

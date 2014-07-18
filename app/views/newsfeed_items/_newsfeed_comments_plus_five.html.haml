@@ -1,0 +1,16 @@
+%tr.previous-comment 
+  %td
+    %span.glyphicon.glyphicon-comment
+    %a{:href => "#"}Show glyphicon comments if more than 4 comments
+%tr.comment-row
+  %td.comment-pic-wrapper
+    %div.pic
+      %img.tiny-image{:src => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/t1.0-1/c204.44.552.552/s160x160/303330_10100328964694072_324662327_n.jpg"}
+    -# Placeholder
+  %td.comment-content-wrapper 
+    %span= "#{comment.author.first_name} #{comment.author.last_name}"
+    %br/
+    %span= "#{comment.content}"
+    %div.comment-notifications
+      %span.small-text 1m
+      %span.glyphicon.glyphicon-circle-arrow-up

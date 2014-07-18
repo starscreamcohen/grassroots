@@ -11,6 +11,8 @@
         %li
           = link_to "Organizations", organizations_path if current_user
         %li
+          = link_to "Talent", users_path if current_user
+        %li
           = link_to "Forum", questions_path if current_user
         %li
           = link_to "Newsfeed", newsfeed_items_path if current_user

@@ -23,8 +23,8 @@ feature 'User has a conversation with messages with other user' do
     click_on("Overview")
     click_on("Message")
     
-    fill_in "private_message[subject]", with: "question about projects"
-    fill_in "private_message[body]", with: "Why do you not have any projects open?"
+    fill_in "message[subject]", with: "question about projects"
+    fill_in "message[body]", with: "Why do you not have any projects open?"
     click_on('Create')
     sign_out
 
@@ -32,7 +32,7 @@ feature 'User has a conversation with messages with other user' do
     visit conversations_path
     
     click_on("question about projects")
-    fill_in "private_message[body]", with: "I'm going to post one in a few days. What is your background?"
+    fill_in "message[body]", with: "I'm going to post one in a few days. What is your background?"
     click_on('Send')
     sign_out
 
@@ -40,7 +40,7 @@ feature 'User has a conversation with messages with other user' do
     visit conversations_path
     click_on("question about projects")
     expect(page).to have_content("I'm going to post one in a few days. What is your background?")
-    fill_in "private_message[body]", with: "I build web applications and would be interested in helping out."
+    fill_in "message[body]", with: "I build web applications and would be interested in helping out."
     click_on("Send")
     sign_out
 

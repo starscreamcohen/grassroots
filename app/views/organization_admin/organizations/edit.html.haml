@@ -19,6 +19,8 @@
                 = f.label :cause
                 = f.text_field :cause
               %div.edit-input-wrapper
+                = f.attachinary_file_field :logo
+              %div.edit-input-wrapper
                 = f.label :mission_statement
                 = f.text_area :mission_statement, cols: 4, rows: 4, class: "form-control"
               %div.edit-input-wrapper

@@ -55,7 +55,7 @@ describe QuestionsController, :type => :controller do
     it "shows the answers comments" do
       bob = Fabricate(:user, user_group: "volunteer")
       bob_answer = Fabricate(:answer, description: "You need to do this......", question_id: alice_question1.id, user_id: bob.id)
-      alice_comment = Comment.create(user_id: alice.id, content: "thank you!", answer_id: bob_answer.id)
+      alice_comment = Comment.create(user_id: alice.id, content: "thank you!", commentable: bob_answer)
       get :show, id: alice_question1
 
       expect(bob_answer.comments).to match_array([alice_comment])
@@ -63,7 +63,7 @@ describe QuestionsController, :type => :controller do
 
     it "shows the questions comments" do
       bob = Fabricate(:user, user_group: "volunteer")
-      bob_comment = Comment.create(user_id: bob.id, content: "can you clarify your question?", question_id: alice_question1.id)
+      bob_comment = Comment.create(user_id: bob.id, content: "can you clarify your question?", commentable: alice_question1)
       get :show, id: alice_question1
 
       expect(alice_question1.comments).to match_array([bob_comment])
@@ -74,8 +74,8 @@ describe QuestionsController, :type => :controller do
       bob_answer = Fabricate(:answer, description: "You need to do this......", question_id: alice_question1.id, user_id: bob.id)
       cat = Fabricate(:user, user_group: "volunteer")
       cat_answer = Fabricate(:answer, description: "I think you should do this......", question_id: alice_question1.id, user_id: cat.id)
-      alice_comment = Comment.create(user_id: alice.id, content: "thank you!", answer_id: bob_answer.id)
-      alice_comment2 = Comment.create(user_id: alice.id, content: "that was a good point", answer_id: cat_answer.id)
+      alice_comment = Comment.create(user_id: alice.id, content: "thank you!", commentable: bob_answer)
+      alice_comment2 = Comment.create(user_id: alice.id, content: "that was a good point", commentable: cat_answer)
       get :show, id: alice_question1
 
       expect(cat_answer.comments).to match_array([alice_comment2])

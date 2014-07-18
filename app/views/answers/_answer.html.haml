@@ -3,29 +3,35 @@
     %div.forum-vote
       %ul
         %li
-          %span.glyphicon.glyphicon.glyphicon-chevron-up
+          = link_to votes_question_answer_path(question_id: @question.id, id: answer.id, vote: true), method: 'post' do
+            %span.glyphicon.glyphicon.glyphicon-chevron-up
         %li 
-          %span.vote-number 0
+          %span.vote-number= answer.total_votes
     %p
       = "#{answer.description}"
     -#  
       %small 
         created at
         = "#{fix_date_time(answer.created_at)}"
-    %div.avatar-wrapper
-      %img{:src => "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/t1.0-1/c204.44.552.552/s160x160/303330_10100328964694072_324662327_n.jpg"} 
-      %div
-        %ul
-          %li
-            = link_to "#{answer.author.first_name} #{answer.author.last_name}", user_path(answer.author)
-          %li Grassroots.org
+    %table.avatar-wrapper
+      %tr
+        %td
+          - if @question.author.avatar?
+            = cl_image_tag(@question.author.avatar.path, size: "20x20")
+          - else
+            = image_tag(@question.author.small_cover, class: "testing")
+        %td
+          %ul
+            %li
+              = link_to "#{answer.author.first_name} #{answer.author.last_name}", user_path(answer.author)
+            %li Grassroots.org
   %div.comment-wrapper
     - answer.comments.each do |comment|
       = render 'comments/comment', comment: comment
   %div.new-comment-wrapper  
     %a{:title => "Use the comments to ask for a clarification on the answer", :class => "comment-link"} add comment
     %div.comment-form
-      = form_for [@question, answer, @comment] do |f|
-        = f.text_area :content
+      = form_for @comment, url: question_answer_comments_path(answer_id: answer.id, question_id: @question.id) do |f|
+        = f.text_area :content, id: "comment_answer"
         %br/
-        = f.submit "Add a Comment", class: "btn btn-primary"
+        = f.submit "Comment on the answer", class: "btn btn-primary"
