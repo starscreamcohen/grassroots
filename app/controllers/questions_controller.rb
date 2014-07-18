@@ -19,19 +19,13 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    if params[:question][:category_ids] == nil
-      question = Question.new(question_params.merge!(category_ids: [1]))
-      question.author = current_user
-      question.save
-      newsfeed_item = NewsfeedItem.create(user_id: current_user.id)
-      question.newsfeed_items << newsfeed_item
+    if creating_a_question_without_a_category?
+      create_uncategorized_question
+      create_newsfeed_item_for_the_question(@question)
       redirect_to questions_path
     else
-      question = Question.new(question_params)
-      question.author = current_user
-      question.save
-      newsfeed_item = NewsfeedItem.create(user_id: current_user.id)
-      question.newsfeed_items << newsfeed_item
+      create_categorized_question
+      create_newsfeed_item_for_the_categorized_question(@question)
       redirect_to questions_path
     end
   end
@@ -65,5 +59,31 @@ private
 
   def comment_params
     params.require(:comment).permit(:content, :user_id)
+  end
+
+  def creating_a_question_without_a_category?
+    params[:question][:category_ids] == nil
+  end
+
+  def create_uncategorized_question
+    @question = Question.new(question_params.merge!(category_ids: [1]))
+    @question.author = current_user
+    @question.save
+  end
+
+  def create_newsfeed_item_for_the_question(question)
+    newsfeed_item = NewsfeedItem.create(user_id: current_user.id)
+    question.newsfeed_items << newsfeed_item
+  end
+
+  def create_categorized_question
+    @question = Question.new(question_params)
+    @question.author = current_user
+    @question.save
+  end
+
+  def create_newsfeed_item_for_the_categorized_question(question)
+    newsfeed_item = NewsfeedItem.create(user_id: current_user.id)
+    question.newsfeed_items << newsfeed_item
   end
 end

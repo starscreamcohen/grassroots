@@ -1,0 +1,2 @@
+Fabricator(:skill) do
+end

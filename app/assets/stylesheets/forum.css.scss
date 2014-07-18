@@ -116,19 +116,28 @@
   }
 }
           .avatar-wrapper {
-            position: absolute;
-            bottom: 0;
-            right: 10px;
-            width: 180px;
-            height: 50px;
-            img {
-              float:left;
-              width: 50px;
+            float: right;
+            td {
+              padding: 2px;
             }
-            div {
-              float: left;
-              ul {
-                padding-left: 10px;
-              }
+            td:first-child {
+              vertical-align: top;
             }
-          }
+          } 
+
+/* New Forum Question View */
+
+#forum-form {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  .control-group {
+    margin-bottom: 10px;
+    .checkbox {
+      margin-left: 1px;
+      line-height: 2em;
+      input {
+        margin-right: 5px;
+      }
+    }
+  }
+}

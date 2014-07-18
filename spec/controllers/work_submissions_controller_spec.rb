@@ -22,8 +22,8 @@ describe WorkSubmissionsController, :type => :controller do
       expect(assigns(:contract)).to be_instance_of(Contract)
     end
 
-    it "sets @private_message with contractor as recipient of message" do
-      expect(assigns(:private_message).recipient_id).to eq(alice.id)
+    it "sets @message with contractor as recipient of message" do
+      expect(assigns(:message).recipient_id).to eq(alice.id)
     end
   end
 
@@ -39,8 +39,8 @@ describe WorkSubmissionsController, :type => :controller do
 
     let(:contract) { Fabricate(:contract, contractor_id: alice.id, volunteer_id: bob.id, active: true, project_id: word_press.id) } 
     let(:conversation) { Fabricate(:conversation, contract_id: contract.id) }
-    let(:message1) {Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")}
-    let(:message2) {Fabricate(:private_message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation.id, subject: "Please let me join your project", body: "I've accepted you to join")}
+    let(:message1) {Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")}
+    let(:message2) {Fabricate(:message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation.id, subject: "Please let me join your project", body: "I've accepted you to join")}
     
     before do
       set_current_user(bob)
@@ -50,78 +50,78 @@ describe WorkSubmissionsController, :type => :controller do
 
    
     it "renders the current user's inbox" do
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
 
       expect(response).to redirect_to(conversations_path)
     end
 
     it "makes the contract reflect that the volunteer has submitted work" do
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
 
       expect(contract.reload.work_submitted).to eq(true)
     end
 
     it "makes the contract reflect that the project is still active" do
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
 
       expect(contract.reload.active).to eq(true)
     end
 
     it "moves the project from in production to a state of, has work submitted" do
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
 
       expect(word_press.reload.has_submitted_work?).to eq(true)
     end
 
     it "makes the project return false when asked if, in production" do
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
 
       expect(word_press.reload.in_production?).to eq(false)
     end
 
     it "shows that the current user has a project with work submitted" do
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
 
       expect(bob.submitted_work).to eq([word_press])
       expect(bob.submitted_work.count).to eq(1)
     end
 
     it "makes the volunteer send a message to the administrator" do
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
       
       expect(bob.sent_messages.count).to eq(1)
     end
 
     it "starts a new conversation with the administrator" do
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
       
-      expect(alice.user_conversations.count).to eq(1)
+      expect(alice.inbox.count).to eq(1)
     end
 
     it "associated the conversation with the contract " do
-      conversation.private_messages << [message1, message2]
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
+      conversation.messages << [message1, message2]
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}
 
       conversation = Conversation.last
       expect(conversation.reload.contract_id).to eq(contract.id)
     end
 
     it "makes the contract reflect that the volunteer has submitted work" do
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}  
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}  
 
       expect(contract.reload.work_submitted).to eq(true)
     end
 
     it "renders the conversation show view" do
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}  
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}  
 
       expect(response).to redirect_to(conversations_path)
     end
 
     it "sets the previous conversation's contract id to nil" do
-      conversation.private_messages << [message1, message2]
+      conversation.messages << [message1, message2]
 
-      post :create, id: contract.id, private_message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}  
+      post :create, id: contract.id, message: {recipient_id: alice.id, sender_id: bob.id, subject: "Contract Complete", body: "This work is done"}  
       conversation2 = Conversation.first
       expect(conversation2.reload.contract_id).to eq(nil)
     end

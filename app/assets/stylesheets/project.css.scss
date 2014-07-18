@@ -84,7 +84,6 @@
 }
 
   .thumbnail-project {
-    height: 23.5em;
     margin-top: 31px;
     padding: 0;
     .pic {
@@ -93,11 +92,28 @@
       height: 150px;
       overflow: hidden;
       img {
-        position: absolute;
         width: 100%;
         margin: 0;
         z-index: 3;
       }
+      .photo-name-wrapper {
+      position: absolute;
+      bottom: 0px;
+      width: 100%;
+      background: -webkit-linear-gradient(rgba(22,24,27,0), rgba(22,24,27,0.7) 158%, rgba(22,24,27,0.9));
+      background: -moz-linear-gradient(rgba(22,24,27,0), rgba(22,24,27,0.7) 158%, rgba(22,24,27,0.9));
+      background: -o-linear-gradient(rgba(22,24,27,0), rgba(22,24,27,0.7) 158%, rgba(22,24,27,0.9));
+      background: -ms-linear-gradient(rgba(22,24,27,0), rgba(22,24,27,0.7) 158%, rgba(22,24,27,0.9));
+      padding: 15px 0;
+      .title {
+        z-index: 4;
+        color: #fff;
+        font-size: 1.25em;
+        font-weight: 700;
+        text-align: center;
+        clear: both;
+      }
+    }
     }
     .volunteer-project-requests {
       position: absolute;
@@ -121,51 +137,11 @@
         }
       }
     }
-    .title {
-      position: relative;
-      bottom: 72px;
-      z-index: 4;
-      color: #fff;
-      font-size: 1.25em;
-      font-weight: 700;
-      text-align: center;
-      clear: both;
-    }
-    .org-link {
-      position: relative;
-      bottom: 45px;
-    }
-    .description {
-      position: relative;
-      bottom: 50px;
-      min-height: 49px;
-    }
-    .project-thumb-info {
-      position: relative;
-      bottom: 53px;
-      margin: 0 5px;
-      dl {
-        float: left;
-      }
-      dl.deadline {
-        float: right;
-      }
-    }
-  }
-
-  .btn-project {
-    position: relative;
-    bottom: 65px;
-    /* margin-top: 1em; */ 
-  }
-
-  .btn-project, .text-clear {
-    clear: both;
   }
 
 /* Create New Form and Edit Form */ 
 
-section#form {
+section.form {
     .col-project-form {
         background-color: #fff;
               #skills {
@@ -194,6 +170,7 @@ section#form {
               }
 
               #project_skills {
+                width: 90%;
                 height: 30px;
                 border-radius: 3px;
                 border-color: #ccc;
@@ -221,7 +198,7 @@ section#form {
 
               /* End Overrides */ 
           
-      #form-tip {
+      .form-tip {
         margin-top: 114px;
       }
 

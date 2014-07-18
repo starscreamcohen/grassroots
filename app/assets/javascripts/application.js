@@ -31,8 +31,8 @@ jQuery(function() {
  });
 
 $(document).ready(function() {
-  return $('#user_skills').autocomplete({
-    source: $('#user_skills').data('autocomplete-source')
+  return $('#skill_name').autocomplete({
+    source: $('#skill_name').data('autocomplete-source')
   });
   $('.attachinary-input').attachinary()
 });

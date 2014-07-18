@@ -1,11 +1,13 @@
-.row
-  = form_for @question do |f|
-    .control-group
-      = f.label :title
-      = f.text_field :title, class: 'form-control'
-    .control-group
-      = f.label :description
-      = f.text_area :description, rows: 5, class: 'form-control'
-      = f.collection_check_boxes :category_ids, Category.all, :id, :name do |cb|
-        = cb.label(class: "checkbox inline") {cb.check_box(class: "checkbox") + cb.text}
-    = f.submit 'Post question', class: 'btn btn-primary'
+%section
+  .row.row-custom
+    .col-lg-10.white.form#forum-form
+      = form_for @question do |f|
+        .control-group
+          = f.label :subject
+          = f.text_field :title, class: 'form-control'
+        .control-group
+          = f.label :question
+          = f.text_area :description, rows: 5, class: 'form-control'
+          = f.collection_check_boxes :category_ids, Category.all, :id, :name do |cb|
+            = cb.label(class: "checkbox inline") {cb.check_box(class: "checkbox") + cb.text}
+        = f.submit 'Post question', class: 'btn btn-primary'

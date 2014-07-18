@@ -5,46 +5,56 @@
         = link_to cl_image_tag(project.organization.logo.path, { size: '150x150', crop: :fit }), project_path(project.id)
       - else
         = link_to image_tag(project.organization.small_cover.to_s, size: "100%"), project_path(project.id)
-    .caption
-    - if project.applicants.count > 0
-      %div.volunteer-project-requests
-        %span.glyphicon.glyphicon-user.volunteer-glyph
-        %div.volunteer-plus
-          %span.glyphicon.glyphicon-plus.volunteer-plus-glyph 
-            %span.volunteer-number
-              = "#{project.applicants.count}"
-    %h4.title  
-      = project_title(project)
-    %h5.org-link
-      = link_to project.organization.name, organization_path(project.organization.id)
-    %p.description 
-      - if project.description > project.description.first(60)
-        = "#{project.description.first(60)}..."
-      - else 
-        = project.description
-    %div.project-thumb-info
-      %dl
-        %dt Skill Set
-        %dd 
-          = project.skills
-      %dl.deadline
-        %dt Deadline
-        %dd 
-          = fix_date_time(project.deadline)
-    - if project.project_admin == current_user
-      %btn= link_to "View Project", project_path(project.id), class: 'btn btn-primary btn-lg btn-block btn-project'
-    - else 
-      -if  project.organization == current_user.organization
-        %btn= link_to "View Project", project_path(project.id), class: 'btn btn-primary btn-lg btn-bl ock btn-project'
-    - if project.project_admin != current_user
-      - if project.organization != current_user.organization
-        - if project.state == "open"
-          %btn= link_to "Join Project", new_volunteer_application_path(project_id: project.id), class: 'btn btn-success btn-lg btn-block btn-project'
-        - elsif project.in_production?
-          %btn= link_to "Project Complete", new_work_submission_path(contract_id: project.in_production_contract_id), class: 'btn btn-warning btn-lg btn-block btn-project'
-        - elsif project.has_submitted_work?
-          %btn= link_to "Pending Completion", new_private_message_path(user_id: project.id), class: 'btn btn-info btn-lg btn-block btn-project'
-        - elsif project.is_complete?
-          %btn= link_to "Finished", "#", class: 'btn btn-default btn-lg btn-block btn-project'
-        - else
-          %btn= link_to "Unfinished", "#", class: 'btn btn-default btn-lg btn-block btn-project'
+      .photo-name-wrapper
+        %h4.title  
+          = project_title(project)
+    %table.project-information-wrapper
+      %tr
+        %td
+          %h5.org-link
+            = link_to project.organization.name, organization_path(project.organization.id)
+        %td
+          - if project.applicants.count > 0
+            %div.volunteer-project-requests
+              %span.glyphicon.glyphicon-user.volunteer-glyph
+              %div.volunteer-plus
+                %span.glyphicon.glyphicon-plus.volunteer-plus-glyph 
+                  %span.volunteer-number
+                    = "#{project.applicants.count}"
+      %tr 
+        %td{:colspan => "2"}
+          %p.description 
+            - if project.description > project.description.first(60)
+              = "#{project.description.first(60)}..."
+            - else 
+              = project.description
+      %tr
+        %td
+          %dl
+            %dt Skill Set
+            %dd 
+              = project.skills
+        %td
+          %dl.deadline
+            %dt Deadline
+            %dd 
+              = fix_date_time(project.deadline)
+      %tr
+        %td{:colspan => "2"}
+          - if project.project_admin == current_user
+            %btn= link_to "View Project", project_path(project.id), class: 'btn btn-primary btn-lg btn-block btn-project'
+          - else 
+            -if  project.organization == current_user.organization
+              %btn= link_to "View Project", project_path(project.id), class: 'btn btn-primary btn-lg btn-bl ock btn-project'
+          - if project.project_admin != current_user
+            - if project.organization != current_user.organization
+              - if project.state == "open"
+                %btn= link_to "Join Project", new_volunteer_application_path(project_id: project.id), class: 'btn btn-success btn-lg btn-block btn-project'
+              - elsif project.in_production?
+                %btn= link_to "Project Complete", new_work_submission_path(contract_id: project.in_production_contract_id), class: 'btn btn-warning btn-lg btn-block btn-project'
+              - elsif project.has_submitted_work?
+                %btn= link_to "Pending Completion", new_message_path(user_id: project.id), class: 'btn btn-info btn-lg btn-block btn-project'
+              - elsif project.is_complete?
+                %btn= link_to "Finished", "#", class: 'btn btn-default btn-lg btn-block btn-project'
+              - else
+                %btn= link_to "Unfinished", "#", class: 'btn btn-default btn-lg btn-block btn-project'

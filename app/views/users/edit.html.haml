@@ -22,14 +22,14 @@
               %div.edit-input-wrapper
                 = f.label :state
                 = f.select :state_abbreviation, options_for_select(us_states), include_blank: true
+              %div.edit-input-wrapper
+                = f.label :city
+                = f.text_field :city
             %div.edit-fieldset-wrapper
               %h3 About Your Role
               %div.edit-input-wrapper
                 = f.label :position
                 = f.text_field :position
-              %div.edit-input-wrapper
-                = f.label :skills
-                = f.text_field :skills, data: {autocomplete_source: skill_set.sort}
               %div.edit-input-wrapper
                 = f.label :interests
                 = f.text_field :interests
@@ -50,4 +50,14 @@
         .form-group        
           .field
             = f.submit "Update", class: "btn btn-success", id: "edit-submit"
-
+.row.edit-profile-wrapper
+  .col-lg-7
+    = form_for(@skill, url: skills_path) do |f|
+      %div.edit-input-wrapper
+        = f.label :name
+        = f.text_field :name, data: {autocomplete_source: skill_set.sort}
+      = f.submit "Add Skill", class: "btn btn-success", id: "edit-submit"
+  .col-lg-7
+    %ul
+      - @user.skills.each do |type|
+        %li= type.name

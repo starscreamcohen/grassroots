@@ -16,15 +16,17 @@
           %p
             = @question.description
           %p= link_to 'edit', edit_question_path(@question) if @question.author == current_user
-          %div.avatar-wrapper
-            - if @question.author.avatar?
-              = cl_image_tag(@question.author.avatar.path, size: "20x20")
-            - else
-              = image_tag(@question.author.small_cover, class: "testing")
-            %div
-              %ul
-                %li= link_to "#{@question.author.first_name} #{@question.author.last_name}", user_path(@question.author)
-                %li= link_to "#{@question.author.organization_name}", organization_path(@question.author.organization) if @question.author.organization
+          %table.avatar-wrapper
+            %tr
+              %td
+                - if @question.author.avatar?
+                  = cl_image_tag(@question.author.avatar.path, size: "20x20")
+                - else
+                  = image_tag(@question.author.small_cover, class: "testing")
+              %td
+                %ul
+                  %li= link_to "#{@question.author.first_name} #{@question.author.last_name}", user_path(@question.author)
+                  %li= link_to "#{@question.author.organization_name}", organization_path(@question.author.organization) if @question.author.organization
         %div.comment-wrapper
           - @question.comments.each do |comment|
             = render 'comments/comment', comment: comment
@@ -32,7 +34,7 @@
           %a{:title => "Use the comments section to ask for a clarification on the question", :class => "comment-link"} add comment
           %div.comment-form
             = form_for @comment, url: question_comments_path(question_id: @question.id) do |f|
-              = f.text_area :content
+              = f.text_area :content, id: "Question"
               %br/
               = f.submit "Comment on the question", class: "btn btn-primary"
       %h4.bold= "#{@answers.count} Answers"

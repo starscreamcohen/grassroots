@@ -13,7 +13,7 @@
           - elsif @project.state == "open"
             = link_to "Request to Join", new_volunteer_application_path(project_id: @project.id), class: "btn btn-primary btn-lg btn-project" 
           - elsif @project.state == "in production"
-            = link_to "Project Complete", new_private_message_path(project_id: @project.id), class: "btn btn-primary btn-lg btn-project"  
+            = link_to "Project Complete", new_message_path(project_id: @project.id), class: "btn btn-primary btn-lg btn-project"  
       .col-lg-4
         - if @project.project_admin || @project.volunteers.first == current_user 
           - if @project.state == "open"

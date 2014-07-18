@@ -1,14 +1,13 @@
 class OrganizationAdmin::OrganizationsController < OrganizationAdminController
+  before_action :find_organization, only: [:update, :edit]
+  
   def new
     @organization = Organization.new
   end
 
-  def edit
-    @organization = Organization.find(params[:id])
-  end
+  def edit; end
 
   def update
-    @organization = Organization.find(params[:id])
     @organization.update_columns(organization_params)
     uploading_logo?(@organization)
     flash[:notice] = "You have updated your organization's profile."
@@ -36,5 +35,9 @@ private
       a_organization.logo = params[:organization][:logo]
       a_organization.logo.save
     end
+  end
+
+  def find_organization
+    @organization = Organization.find(params[:id])
   end
 end

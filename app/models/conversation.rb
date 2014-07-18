@@ -1,9 +1,9 @@
 class Conversation < ActiveRecord::Base
-  has_many :private_messages, -> {order('created_at ASC')}#, dependent: :destroy
+  has_many :messages, -> {order('created_at ASC')}#, dependent: :destroy
   #has many users
 
   def sender_user_name_of_recent_message
-    message = self.private_messages.last 
+    message = self.messages.last 
     user = message.sender_id
     name = User.find_by(id: user)
     if name
@@ -12,7 +12,7 @@ class Conversation < ActiveRecord::Base
   end
 
   def the_id_of_sender
-    message = self.private_messages.last
+    message = self.messages.last
     user = message.sender_id
     name = User.find_by(id: user)
     if name
@@ -20,18 +20,18 @@ class Conversation < ActiveRecord::Base
     end
   end
 
-  def private_message_subject
-    message = self.private_messages.last
+  def message_subject
+    message = self.messages.last
     message_subject = message.subject
   end
 
-  def private_message_body
-    message = self.private_messages.last
+  def message_body
+    message = self.messages.last
     message_body = message.body
   end
 
   def join_request
-    message = self.private_messages.first
+    message = self.messages.first
     project = Project.find_by(id: message.project_id)
     if project
       if project.users.count >= 2

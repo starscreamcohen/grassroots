@@ -17,33 +17,33 @@ describe ConversationsController, :type => :controller do
     
     it "shows a conversation if current user receives a sent message" do
       conversation1 = Fabricate(:conversation)
-      message1 = Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
-      message2 = Fabricate(:private_message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "OK great. when can you start?") 
+      message1 = Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
+      message2 = Fabricate(:message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "OK great. when can you start?") 
       get :index
 
-      expect(alice.user_conversations).to match_array([conversation1])
+      expect(alice.inbox).to match_array([conversation1])
     end
 
     it "sets the @conversations" do
       get :index
 
-      expect(assigns(:conversations)).to eq(alice.user_conversations)
+      expect(assigns(:conversations)).to eq(alice.inbox)
     end
   end
   
   describe "GET show" do
     it "it renders the show template" do
       conversation1 = Fabricate(:conversation)
-      message1 = Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
-      message2 = Fabricate(:private_message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "OK great. when can you start?") 
+      message1 = Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
+      message2 = Fabricate(:message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "OK great. when can you start?") 
       get :show, id: conversation1.id
 
       expect(response).to render_template(:show)
     end
     it "sets the @messages" do
       conversation1 = Fabricate(:conversation)
-      message1 = Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
-      message2 = Fabricate(:private_message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "OK great. when can you start?") 
+      message1 = Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
+      message2 = Fabricate(:message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "OK great. when can you start?") 
       get :show, id: conversation1.id
 
       expect(assigns(:conversation)).to be_instance_of(Conversation)
@@ -51,46 +51,46 @@ describe ConversationsController, :type => :controller do
 
     it "shows a received private message" do
       conversation1 = Fabricate(:conversation)
-      message1 = Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
+      message1 = Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
       get :show, id: conversation1.id
-      expect(conversation1.private_messages).to eq([message1])
+      expect(conversation1.messages).to eq([message1])
     end
 
     it "shows the private messages of the conversation" do
       conversation1 = Fabricate(:conversation)
-      message1 = Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
-      message2 = Fabricate(:private_message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "OK great. when can you start?") 
+      message1 = Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
+      message2 = Fabricate(:message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "OK great. when can you start?") 
       get :show, id: conversation1.id
 
-      expect(conversation1.private_messages).to eq([message1, message2])
+      expect(conversation1.messages).to eq([message1, message2])
     end
 
     context "when replying to a message" do
-      it "sets the @private_message to new" do
+      it "sets the @message to new" do
         conversation1 = Fabricate(:conversation)
-        message1 = Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
+        message1 = Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
         get :show, id: conversation1.id
 
-        expect(assigns(:reply)).to be_a PrivateMessage
+        expect(assigns(:reply)).to be_a Message
       end
 
       it "sets the recipient value" do
         conversation1 = Fabricate(:conversation)
-        message1 = Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
+        message1 = Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
         get :show, id: conversation1.id
 
         expect(assigns(:reply).recipient).to eq(bob)
       end
       it "sets the sender value" do
         conversation1 = Fabricate(:conversation)
-        message1 = Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
+        message1 = Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
         get :show, id: conversation1.id
 
         expect(assigns(:reply).sender).to eq(alice)
       end
       it "sets the subject line with the value of the message title with Project Request: the message's title" do
         conversation1 = Fabricate(:conversation)
-        message1 = Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
+        message1 = Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
         get :show, id: conversation1.id
 
         expect(assigns(:reply).subject).to eq("Please let me join your project")
@@ -98,8 +98,8 @@ describe ConversationsController, :type => :controller do
 
       it "sets the conversation id of the sent message" do
         conversation1 = Fabricate(:conversation)
-        message1 = Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
-        message2 = Fabricate(:private_message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "OK great. when can you start?") 
+        message1 = Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project")
+        message2 = Fabricate(:message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "OK great. when can you start?") 
         get :show, id: conversation1.id
 
         expect(assigns(:reply).conversation).to eq(conversation1)
@@ -117,14 +117,14 @@ describe ConversationsController, :type => :controller do
     let(:conversation1) { Fabricate(:conversation) }
     let(:conversation2) { Fabricate(:conversation) }
     let(:conversation3) { Fabricate(:conversation) }
-    let(:message1) { Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project", project_id: word_press.id) }
-    let(:message2) { Fabricate(:private_message, recipient_id: alice.id, sender_id: elena.id, conversation_id: conversation2.id, subject: "Please let me join your project", body: "I'd like to contribute to your project", project_id: word_press.id) }
-    let(:message3) { Fabricate(:private_message, recipient_id: alice.id, sender_id: dan.id, conversation_id: conversation3.id, subject: "Please let me join your project", body: "I'd like to contribute to your project", project_id: word_press.id) }
+    let(:message1) { Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project", project_id: word_press.id) }
+    let(:message2) { Fabricate(:message, recipient_id: alice.id, sender_id: elena.id, conversation_id: conversation2.id, subject: "Please let me join your project", body: "I'd like to contribute to your project", project_id: word_press.id) }
+    let(:message3) { Fabricate(:message, recipient_id: alice.id, sender_id: dan.id, conversation_id: conversation3.id, subject: "Please let me join your project", body: "I'd like to contribute to your project", project_id: word_press.id) }
     
     before do
-      conversation1.private_messages << message1
-      conversation2.private_messages << message2
-      conversation3.private_messages << message3
+      conversation1.messages << message1
+      conversation2.messages << message2
+      conversation3.messages << message3
       word_press.users << alice
       word_press.users << bob
       word_press.users << elena
@@ -167,10 +167,10 @@ describe ConversationsController, :type => :controller do
     let(:huggey_bear) { Fabricate(:organization, user_id: alice.id) }
     let(:word_press) { Fabricate(:project, title: "word press website", user_id: alice.id, organization_id: huggey_bear.id, state: "in production") }
     let(:conversation1) { Fabricate(:conversation) }
-    let(:message1) { Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Project Completed: word press website", body: "I finished this project", project_id: word_press.id) }
+    let(:message1) { Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Project Completed: word press website", body: "I finished this project", project_id: word_press.id) }
 
     before do
-      conversation1.private_messages << message1
+      conversation1.messages << message1
       word_press.users << bob
     end
 
@@ -200,10 +200,10 @@ describe ConversationsController, :type => :controller do
     let(:conversation1) { Fabricate(:conversation) }
     
     
-    let(:message1) { Fabricate(:private_message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project", project_id: word_press.id) }
+    let(:message1) { Fabricate(:message, recipient_id: alice.id, sender_id: bob.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "I'd like to contribute to your project", project_id: word_press.id) }
     
     before do
-      conversation1.private_messages << message1
+      conversation1.messages << message1
       word_press.users << alice
       word_press.users << bob
     end
@@ -229,10 +229,10 @@ describe ConversationsController, :type => :controller do
       expect(word_press.reload.state).to eq("open")
     end
     it "automated message within the same message thread stating that the other user has dropped the project" do
-      message2 = Fabricate(:private_message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "you are accepted", project_id: word_press.id)
+      message2 = Fabricate(:message, recipient_id: bob.id, sender_id: alice.id, conversation_id: conversation1.id, subject: "Please let me join your project", body: "you are accepted", project_id: word_press.id)
       get :drop, conversation_id: conversation1.id
 
-      expect(conversation1.private_messages.count).to eq(3)
+      expect(conversation1.messages.count).to eq(3)
     end
   end
 =end

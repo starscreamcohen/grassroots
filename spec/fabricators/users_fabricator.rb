@@ -3,8 +3,7 @@ Fabricator(:user) do
   first_name { Faker::Name.first_name }
   last_name { Faker::Name.last_name }
   password { 'password' }
-  skills { ["Grant Writing", "Web Development", "Graphic Design", "Business Planning", "Accounting"].sample}
-  interests { ["Environment", "Human Rights", "Urban Issues", "Transportation", "Health"].sample }
+  #interests { ["Environment", "Human Rights", "Urban Issues", "Transportation", "Health"].sample }
   position {["Executive Director", "Product Manager", "Office Manager", "Intern", "Outreach Manager"].sample}
   organization_administrator false
 end  
